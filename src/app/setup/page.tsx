@@ -1,0 +1,263 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  getStudents,
+  addStudent,
+  updateStudent,
+  deleteStudent,
+} from "@/lib/students";
+import { COLOR_CONFIG } from "@/lib/colors";
+import {
+  COLORS,
+  RELATED_ARTS,
+  type Student,
+  type ScheduleColor,
+  type RelatedArt,
+} from "@/lib/types";
+
+function StudentForm({
+  initial,
+  onSave,
+  onCancel,
+}: {
+  initial?: Student;
+  onSave: (student: Student) => void;
+  onCancel: () => void;
+}) {
+  const [name, setName] = useState(initial?.name ?? "");
+  const [colorMap, setColorMap] = useState<
+    Partial<Record<ScheduleColor, RelatedArt>>
+  >(initial?.colorMap ?? {});
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    onSave({
+      id: initial?.id ?? crypto.randomUUID(),
+      name: name.trim(),
+      colorMap,
+    });
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up"
+    >
+      <div className="mb-5">
+        <label className="block text-xs font-bold text-ink-muted uppercase tracking-wider mb-2">
+          Student Name
+        </label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full px-4 py-3 bg-cream rounded-xl font-display font-medium text-ink placeholder:text-ink-muted/50 focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
+          placeholder="e.g., Emma"
+          required
+          autoFocus={!initial}
+        />
+      </div>
+
+      <p className="text-xs font-bold text-ink-muted uppercase tracking-wider mb-3">
+        What does each color day mean?
+      </p>
+      <div className="space-y-2 mb-6">
+        {COLORS.map((color, i) => {
+          const config = COLOR_CONFIG[color];
+          return (
+            <div
+              key={color}
+              className="flex items-center gap-3 animate-slide-up"
+              style={{ animationDelay: `${i * 50}ms` }}
+            >
+              <div
+                className={`flex items-center gap-2 w-28 shrink-0`}
+              >
+                <span className={`w-4 h-4 rounded-full ${config.solid} shrink-0`} />
+                <span className={`font-display font-bold text-sm ${config.text}`}>
+                  {config.label}
+                </span>
+              </div>
+              <select
+                value={colorMap[color] ?? ""}
+                onChange={(e) =>
+                  setColorMap((prev) => ({
+                    ...prev,
+                    [color]: e.target.value || undefined,
+                  }))
+                }
+                className="flex-1 px-3 py-2.5 bg-cream rounded-xl text-sm font-medium text-ink focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
+              >
+                <option value="">Select...</option>
+                {RELATED_ARTS.map((art) => (
+                  <option key={art} value={art}>
+                    {art}
+                  </option>
+                ))}
+              </select>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          className="flex-1 bg-ink text-cream py-3 rounded-xl font-display font-bold hover:bg-ink/90 transition-all active:scale-[0.98]"
+        >
+          {initial ? "Save Changes" : "Add Student"}
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-5 py-3 text-ink-muted hover:text-ink font-display font-bold transition-colors rounded-xl hover:bg-cream-dark"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function StudentCard({
+  student,
+  onEdit,
+  onDelete,
+  index,
+}: {
+  student: Student;
+  onEdit: () => void;
+  onDelete: () => void;
+  index: number;
+}) {
+  return (
+    <div
+      className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up"
+      style={{ animationDelay: `${index * 80}ms` }}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <h3 className="font-display text-lg font-bold text-ink">
+          {student.name}
+        </h3>
+        <div className="flex gap-1">
+          <button
+            onClick={onEdit}
+            className="text-xs font-semibold text-ink-muted hover:text-ink px-2.5 py-1 rounded-lg hover:bg-cream-dark transition-all"
+          >
+            Edit
+          </button>
+          <button
+            onClick={onDelete}
+            className="text-xs font-semibold text-ink-muted hover:text-day-red px-2.5 py-1 rounded-lg hover:bg-day-red-soft transition-all"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {COLORS.map((color) => {
+          const config = COLOR_CONFIG[color];
+          const art = student.colorMap[color];
+          if (!art) return null;
+          return (
+            <span
+              key={color}
+              className={`inline-flex items-center gap-1.5 ${config.soft} px-2.5 py-1 rounded-full`}
+            >
+              <span className={`w-2 h-2 rounded-full ${config.solid}`} />
+              <span className={`text-xs font-semibold ${config.text}`}>
+                {art}
+              </span>
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function SetupPage() {
+  const router = useRouter();
+  const [students, setStudents] = useState<Student[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  useEffect(() => {
+    const loaded = getStudents();
+    setStudents(loaded);
+    if (loaded.length === 0) setShowAddForm(true);
+  }, []);
+
+  const handleAdd = (student: Student) => {
+    addStudent(student);
+    setStudents(getStudents());
+    setShowAddForm(false);
+  };
+
+  const handleUpdate = (student: Student) => {
+    updateStudent(student);
+    setStudents(getStudents());
+    setEditingId(null);
+  };
+
+  const handleDelete = (id: string) => {
+    if (!confirm("Remove this student?")) return;
+    deleteStudent(id);
+    setStudents(getStudents());
+  };
+
+  return (
+    <div className="space-y-5">
+      {/* Header */}
+      <div className="flex items-center justify-between animate-fade-in">
+        <h1 className="font-display text-lg font-bold text-ink">
+          Students
+        </h1>
+        <button
+          onClick={() => router.push("/")}
+          className="text-xs font-semibold text-ink-muted hover:text-ink transition-colors bg-cream-dark hover:bg-white px-3 py-1.5 rounded-full flex items-center gap-1"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Schedule
+        </button>
+      </div>
+
+      {/* Student list */}
+      <div className="space-y-3">
+        {students.map((student, i) =>
+          editingId === student.id ? (
+            <StudentForm
+              key={student.id}
+              initial={student}
+              onSave={handleUpdate}
+              onCancel={() => setEditingId(null)}
+            />
+          ) : (
+            <StudentCard
+              key={student.id}
+              student={student}
+              onEdit={() => setEditingId(student.id)}
+              onDelete={() => handleDelete(student.id)}
+              index={i}
+            />
+          )
+        )}
+      </div>
+
+      {/* Add form or button */}
+      {showAddForm ? (
+        <StudentForm onSave={handleAdd} onCancel={() => setShowAddForm(false)} />
+      ) : (
+        <button
+          onClick={() => setShowAddForm(true)}
+          className="w-full py-4 border-2 border-dashed border-ink-muted/20 rounded-2xl text-ink-muted hover:border-ink/30 hover:text-ink hover:bg-white transition-all font-display font-bold text-sm active:scale-[0.99]"
+        >
+          + Add Student
+        </button>
+      )}
+    </div>
+  );
+}
