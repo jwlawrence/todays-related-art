@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  getStudents,
-  addStudent,
-  updateStudent,
-  deleteStudent,
-} from "@/lib/students";
+import { useStudents } from "@/hooks/useStudents";
 import { COLOR_CONFIG } from "@/lib/colors";
 import {
   COLORS,
@@ -23,7 +18,7 @@ function StudentForm({
   onCancel,
 }: {
   initial?: Student;
-  onSave: (student: Student) => void;
+  onSave: (student: Student) => void | Promise<void>;
   onCancel: () => void;
 }) {
   const [name, setName] = useState(initial?.name ?? "");
@@ -181,33 +176,37 @@ function StudentCard({
 
 export default function SetupPage() {
   const router = useRouter();
-  const [students, setStudents] = useState<Student[]>([]);
+  const { students, loading, addStudent, updateStudent, deleteStudent } =
+    useStudents();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    const loaded = getStudents();
-    setStudents(loaded);
-    if (loaded.length === 0) setShowAddForm(true);
-  }, []);
+    if (!loading && students.length === 0) setShowAddForm(true);
+  }, [loading, students.length]);
 
-  const handleAdd = (student: Student) => {
-    addStudent(student);
-    setStudents(getStudents());
+  const handleAdd = async (student: Student) => {
+    await addStudent(student);
     setShowAddForm(false);
   };
 
-  const handleUpdate = (student: Student) => {
-    updateStudent(student);
-    setStudents(getStudents());
+  const handleUpdate = async (student: Student) => {
+    await updateStudent(student);
     setEditingId(null);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("Remove this student?")) return;
-    deleteStudent(id);
-    setStudents(getStudents());
+    await deleteStudent(id);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[40vh]">
+        <p className="text-ink-muted font-display text-sm">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5">
