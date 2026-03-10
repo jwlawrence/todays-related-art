@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getStudents } from "@/lib/students";
+import { useStudents } from "@/hooks/useStudents";
 import { getColorStyle, COLOR_CONFIG } from "@/lib/colors";
 import type { Student, ScheduleResponse, ScheduleColor, DaySchedule } from "@/lib/types";
 
@@ -218,13 +218,12 @@ function EmptyState() {
 }
 
 export default function HomePage() {
-  const [students, setStudents] = useState<Student[]>([]);
+  const { students, loading: studentsLoading } = useStudents();
   const [schedule, setSchedule] = useState<ScheduleResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [scheduleLoading, setScheduleLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setStudents(getStudents());
     fetch("/api/schedule")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch schedule");
@@ -232,10 +231,10 @@ export default function HomePage() {
       })
       .then((data: ScheduleResponse) => setSchedule(data))
       .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+      .finally(() => setScheduleLoading(false));
   }, []);
 
-  if (loading) return <LoadingState />;
+  if (scheduleLoading || studentsLoading) return <LoadingState />;
 
   if (error) {
     return (
