@@ -249,16 +249,25 @@ function AccountSection() {
       </div>
 
       {widgetUrl && (
-        <button
-          onClick={handleCopyWidgetUrl}
-          className="w-full flex items-center justify-center gap-2 bg-cream-dark hover:bg-cream py-2.5 rounded-xl font-display font-bold text-xs text-ink-muted hover:text-ink transition-all active:scale-[0.98] mb-3"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-          </svg>
-          {copied ? "Copied!" : "Copy Widget URL"}
-        </button>
+        <div className="bg-cream-dark/50 rounded-xl p-4 mb-3">
+          <p className="font-display font-bold text-ink text-sm mb-1">
+            iOS Widget
+          </p>
+          <p className="text-ink-muted text-xs mb-3">
+            Use this URL in an iOS web widget app (like Scriptable) to see your
+            schedule on your home screen.
+          </p>
+          <button
+            onClick={handleCopyWidgetUrl}
+            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-cream py-2.5 rounded-xl font-display font-bold text-xs text-ink-muted hover:text-ink transition-all active:scale-[0.98] border border-cream-dark"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+            </svg>
+            {copied ? "Copied!" : "Copy Widget URL"}
+          </button>
+        </div>
       )}
 
       {confirmDelete ? (
