@@ -23,7 +23,7 @@ const COLOR_LABELS: Record<ScheduleColor, string> = {
 
 export default function WidgetPage() {
   return (
-    <Suspense fallback={<div style={{ position: "fixed", inset: 0, backgroundColor: "#1a1a1a", padding: 16 }}><p style={{ color: "rgba(255,255,255,0.4)", fontSize: 16 }}>Loading...</p></div>}>
+    <Suspense fallback={<div style={{ position: "fixed", inset: 0, backgroundColor: "#1a1a1a", padding: 24 }}><p style={{ color: "rgba(255,255,255,0.4)", fontSize: 16 }}>Loading...</p></div>}>
       <WidgetContent />
     </Suspense>
   );
@@ -71,64 +71,85 @@ function WidgetContent() {
   const label = color ? COLOR_LABELS[color] : null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "#1a1a1a",
-        padding: 16,
-        fontFamily: "'DM Sans', sans-serif",
-        overflow: "hidden",
-      }}
-    >
-      {loading ? (
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 16 }}>Loading...</p>
-      ) : (
-        <>
-          {/* Header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 14, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              {today?.dayName?.slice(0, 3)}
-            </span>
-            {color && (
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: dotColor ?? undefined }} />
-                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, fontWeight: 600 }}>
-                  {label}
-                </span>
+    <>
+      <style>{`
+        .widget-root {
+          position: fixed;
+          inset: 0;
+          background-color: #1a1a1a;
+          padding: 24px;
+          font-family: 'DM Sans', sans-serif;
+          overflow: hidden;
+        }
+        .widget-header-label { font-size: 14px; }
+        .widget-color-dot { width: 10px; height: 10px; }
+        .widget-color-label { font-size: 14px; }
+        .widget-student-name { font-size: 14px; }
+        .widget-student-art { font-size: 28px; }
+        .widget-no-school { font-size: 22px; }
+        .widget-empty { font-size: 16px; }
+        .widget-loading { font-size: 16px; }
+        @media (max-width: 200px) {
+          .widget-root { padding: 20px; }
+          .widget-header-label { font-size: 16px; }
+          .widget-color-label { font-size: 16px; }
+          .widget-student-name { font-size: 16px; }
+          .widget-student-art { font-size: 32px; }
+          .widget-no-school { font-size: 26px; }
+          .widget-empty { font-size: 18px; }
+          .widget-loading { font-size: 18px; }
+        }
+      `}</style>
+      <div className="widget-root">
+        {loading ? (
+          <p className="widget-loading" style={{ color: "rgba(255,255,255,0.4)" }}>Loading...</p>
+        ) : (
+          <>
+            {/* Header */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+              <span className="widget-header-label" style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                {today?.dayName?.slice(0, 3)}
               </span>
-            )}
-          </div>
-
-          {/* Students */}
-          {color ? (
-            <div>
-              {students.map((student, i) => {
-                const art = student.colorMap[color];
-                return (
-                  <div key={student.id} style={{ marginTop: i > 0 ? 10 : 0 }}>
-                    <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1, margin: 0 }}>
-                      {student.name}
-                    </p>
-                    <p style={{ color: "white", fontFamily: "'Fredoka', sans-serif", fontSize: 28, fontWeight: 700, lineHeight: 1.2, margin: 0 }}>
-                      {art || "—"}
-                    </p>
-                  </div>
-                );
-              })}
-              {students.length === 0 && (
-                <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 16 }}>
-                  Set up students on the main page first
-                </p>
+              {color && (
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span className="widget-color-dot" style={{ borderRadius: "50%", backgroundColor: dotColor ?? undefined }} />
+                  <span className="widget-color-label" style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>
+                    {label}
+                  </span>
+                </span>
               )}
             </div>
-          ) : (
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 22, fontFamily: "'Fredoka', sans-serif", fontWeight: 700 }}>
-              No school
-            </p>
-          )}
-        </>
-      )}
-    </div>
+
+            {/* Students */}
+            {color ? (
+              <div>
+                {students.map((student, i) => {
+                  const art = student.colorMap[color];
+                  return (
+                    <div key={student.id} style={{ marginTop: i > 0 ? 10 : 0 }}>
+                      <p className="widget-student-name" style={{ color: "rgba(255,255,255,0.4)", lineHeight: 1, margin: 0 }}>
+                        {student.name}
+                      </p>
+                      <p className="widget-student-art" style={{ color: "white", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, lineHeight: 1.2, margin: 0 }}>
+                        {art || "—"}
+                      </p>
+                    </div>
+                  );
+                })}
+                {students.length === 0 && (
+                  <p className="widget-empty" style={{ color: "rgba(255,255,255,0.3)" }}>
+                    Set up students on the main page first
+                  </p>
+                )}
+              </div>
+            ) : (
+              <p className="widget-no-school" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Fredoka', sans-serif", fontWeight: 700 }}>
+                No school
+              </p>
+            )}
+          </>
+        )}
+      </div>
+    </>
   );
 }
