@@ -78,6 +78,8 @@ body::before {
   animation: fadeIn 0.4s ease-out both;
 }
 
+/* Widget page - no min-height, sizes to content */
+
 /* Custom select styling */
 select {
   appearance: none;
