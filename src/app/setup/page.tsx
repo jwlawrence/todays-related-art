@@ -177,6 +177,12 @@ function StudentCard({
 
 function AccountSection() {
   const { data: session } = useSession();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const handleDeleteAccount = async () => {
+    await fetch("/api/account", { method: "DELETE" });
+    await signOut({ callbackUrl: "/" });
+  };
 
   if (!session) {
     return (
@@ -205,7 +211,7 @@ function AccountSection() {
 
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-3">
         <div>
           <p className="font-display font-bold text-ink text-sm">
             {session.user?.name || session.user?.email}
@@ -219,6 +225,39 @@ function AccountSection() {
           Sign out
         </button>
       </div>
+
+      {confirmDelete ? (
+        <div className="bg-day-red-soft rounded-xl p-4">
+          <p className="text-sm font-display font-bold text-ink mb-1">
+            Delete your account?
+          </p>
+          <p className="text-xs text-ink-muted mb-3">
+            This permanently removes your account and all student data from
+            our servers. Local data on this device will be kept.
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={handleDeleteAccount}
+              className="flex-1 bg-day-red text-white py-2 rounded-lg font-display font-bold text-xs hover:bg-day-red/90 transition-all"
+            >
+              Permanently delete
+            </button>
+            <button
+              onClick={() => setConfirmDelete(false)}
+              className="px-4 py-2 text-ink-muted font-display font-bold text-xs hover:bg-cream-dark rounded-lg transition-all"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          onClick={() => setConfirmDelete(true)}
+          className="text-xs text-ink-muted hover:text-day-red transition-colors"
+        >
+          Delete account and data
+        </button>
+      )}
     </div>
   );
 }
