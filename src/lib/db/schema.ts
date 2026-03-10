@@ -19,6 +19,7 @@ export const users = pgTable("users", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  widgetToken: text("widgetToken").$defaultFn(() => crypto.randomUUID()),
 });
 
 export const accounts = pgTable(
