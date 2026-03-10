@@ -22,10 +22,34 @@ export function useStudents() {
       if (isAuthed) {
         const res = await fetch("/api/students");
         if (res.ok) {
-          const data = await res.json();
-          setStudents(data);
-          // Cache to localStorage so widget page works
-          saveLocalStudents(data);
+          const dbStudents = await res.json();
+
+          // First sign-in migration: if DB is empty but localStorage has data, upload it
+          if (dbStudents.length === 0) {
+            const localStudents = getLocalStudents();
+            if (localStudents.length > 0) {
+              await Promise.all(
+                localStudents.map((s) =>
+                  fetch("/api/students", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(s),
+                  })
+                )
+              );
+              // Re-fetch to get server-assigned data
+              const res2 = await fetch("/api/students");
+              if (res2.ok) {
+                const migrated = await res2.json();
+                setStudents(migrated);
+                saveLocalStudents(migrated);
+                return;
+              }
+            }
+          }
+
+          setStudents(dbStudents);
+          saveLocalStudents(dbStudents);
         }
       } else if (!isLoading) {
         setStudents(getLocalStudents());
