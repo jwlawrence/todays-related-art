@@ -257,7 +257,7 @@ export default function HomePage() {
       {/* Header */}
       <div className="flex items-center justify-between animate-fade-in">
         <h1 className="font-display text-lg font-bold text-ink">
-          Related Art
+          Today&apos;s Related Art
         </h1>
         <div className="flex items-center gap-2">
           {session?.user && (
