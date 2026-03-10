@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { useStudents } from "@/hooks/useStudents";
 import { getColorStyle, COLOR_CONFIG } from "@/lib/colors";
 import type { Student, ScheduleResponse, ScheduleColor, DaySchedule } from "@/lib/types";
@@ -218,6 +219,7 @@ function EmptyState() {
 }
 
 export default function HomePage() {
+  const { data: session } = useSession();
   const { students, loading: studentsLoading } = useStudents();
   const [schedule, setSchedule] = useState<ScheduleResponse | null>(null);
   const [scheduleLoading, setScheduleLoading] = useState(true);
@@ -257,12 +259,19 @@ export default function HomePage() {
         <h1 className="font-display text-lg font-bold text-ink">
           Related Art
         </h1>
-        <Link
-          href="/setup"
-          className="text-xs font-semibold text-ink-muted hover:text-ink transition-colors bg-cream-dark hover:bg-white px-3 py-1.5 rounded-full"
-        >
-          Edit Students
-        </Link>
+        <div className="flex items-center gap-2">
+          {session?.user && (
+            <span className="w-6 h-6 rounded-full bg-cream-dark flex items-center justify-center text-[10px] font-bold text-ink-muted">
+              {(session.user.name || session.user.email || "?")[0].toUpperCase()}
+            </span>
+          )}
+          <Link
+            href="/setup"
+            className="text-xs font-semibold text-ink-muted hover:text-ink transition-colors bg-cream-dark hover:bg-white px-3 py-1.5 rounded-full"
+          >
+            Edit Students
+          </Link>
+        </div>
       </div>
 
       {schedule && (
