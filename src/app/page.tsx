@@ -205,8 +205,13 @@ function EmptyState() {
       <h1 className="font-display text-3xl font-bold text-ink mb-2">
         Today&apos;s Related Art
       </h1>
-      <p className="text-ink-light mb-8 max-w-xs text-sm leading-relaxed">
-        See which specials your kids have today. Add a student to get started.
+      <p className="text-ink-light mb-4 max-w-xs text-sm leading-relaxed">
+        Your school uses color days to rotate specials like Music, Art, and PE.
+        Add your child and map each color to their class.
+      </p>
+      <p className="text-ink-muted mb-8 max-w-xs text-xs leading-relaxed">
+        Check the schedule sheet from your child&apos;s teacher to find
+        which color matches which class.
       </p>
       <Link
         href="/setup"
