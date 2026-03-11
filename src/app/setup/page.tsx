@@ -77,23 +77,25 @@ function StudentForm({
                   {config.label}
                 </span>
               </div>
-              <select
-                value={colorMap[color] ?? ""}
-                onChange={(e) =>
-                  setColorMap((prev) => ({
-                    ...prev,
-                    [color]: e.target.value || undefined,
-                  }))
-                }
-                className="flex-1 px-3 py-2.5 bg-cream rounded-xl text-sm font-medium text-ink focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
-              >
-                <option value="">Select...</option>
-                {RELATED_ARTS.map((art) => (
-                  <option key={art} value={art}>
-                    {art}
-                  </option>
-                ))}
-              </select>
+              <>
+                <input
+                  list={`arts-${color}`}
+                  value={colorMap[color] ?? ""}
+                  onChange={(e) =>
+                    setColorMap((prev) => ({
+                      ...prev,
+                      [color]: e.target.value || undefined,
+                    }))
+                  }
+                  placeholder="Select or type..."
+                  className="flex-1 px-3 py-2.5 bg-cream rounded-xl text-sm font-medium text-ink placeholder:text-ink-muted/50 focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
+                />
+                <datalist id={`arts-${color}`}>
+                  {RELATED_ARTS.map((art) => (
+                    <option key={art} value={art} />
+                  ))}
+                </datalist>
+              </>
             </div>
           );
         })}
