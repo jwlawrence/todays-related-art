@@ -58,9 +58,12 @@ function HeroColor({ schedule, students }: { schedule: ScheduleResponse; student
                         {art || "Not set"}
                       </p>
                       {note && (
-                        <p className="text-white/60 text-xs mt-1">
-                          {note}
-                        </p>
+                        <div className="flex items-center gap-2 mt-2.5 bg-white/15 backdrop-blur-sm rounded-xl px-3.5 py-2.5">
+                          <span className="text-base leading-none" aria-hidden="true">🎒</span>
+                          <p className="text-white/90 text-sm font-medium font-body">
+                            {note}
+                          </p>
+                        </div>
                       )}
                     </div>
                   );
