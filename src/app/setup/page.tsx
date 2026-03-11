@@ -26,6 +26,9 @@ function StudentForm({
   const [colorMap, setColorMap] = useState<
     Partial<Record<ScheduleColor, RelatedArt>>
   >(initial?.colorMap ?? {});
+  const [notes, setNotes] = useState<Partial<Record<ScheduleColor, string>>>(
+    initial?.notes ?? {}
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +37,7 @@ function StudentForm({
       id: initial?.id ?? crypto.randomUUID(),
       name: name.trim(),
       colorMap,
+      notes,
     });
   };
 
@@ -66,18 +70,16 @@ function StudentForm({
           return (
             <div
               key={color}
-              className="flex items-center gap-3 animate-slide-up"
+              className="flex items-start gap-3 animate-slide-up"
               style={{ animationDelay: `${i * 50}ms` }}
             >
-              <div
-                className={`flex items-center gap-2 w-28 shrink-0`}
-              >
+              <div className="flex items-center gap-2 w-28 shrink-0 pt-2.5">
                 <span className={`w-4 h-4 rounded-full ${config.solid} shrink-0`} />
                 <span className={`font-display font-bold text-sm ${config.text}`}>
                   {config.label}
                 </span>
               </div>
-              <>
+              <div className="flex-1">
                 <input
                   list={`arts-${color}`}
                   value={colorMap[color] ?? ""}
@@ -88,14 +90,28 @@ function StudentForm({
                     }))
                   }
                   placeholder="Select or type..."
-                  className="flex-1 px-3 py-2.5 bg-cream rounded-xl text-sm font-medium text-ink placeholder:text-ink-muted/50 focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
+                  className="w-full px-3 py-2.5 bg-cream rounded-xl text-sm font-medium text-ink placeholder:text-ink-muted/50 focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
                 />
                 <datalist id={`arts-${color}`}>
                   {RELATED_ARTS.map((art) => (
                     <option key={art} value={art} />
                   ))}
                 </datalist>
-              </>
+                {colorMap[color] && (
+                  <input
+                    type="text"
+                    value={notes[color] ?? ""}
+                    onChange={(e) =>
+                      setNotes((prev) => ({
+                        ...prev,
+                        [color]: e.target.value || undefined,
+                      }))
+                    }
+                    placeholder="What to bring..."
+                    className="w-full px-3 py-2 bg-cream/60 rounded-lg text-xs text-ink-light placeholder:text-ink-muted/40 focus:ring-1 focus:ring-ink/10 focus:bg-white outline-none transition-all mt-1.5"
+                  />
+                )}
+              </div>
             </div>
           );
         })}

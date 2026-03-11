@@ -14,6 +14,7 @@ export interface Student {
   id: string;
   name: string;
   colorMap: Partial<Record<ScheduleColor, RelatedArt>>;
+  notes?: Partial<Record<ScheduleColor, string>>;
 }
 
 export interface DaySchedule {

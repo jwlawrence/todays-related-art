@@ -44,6 +44,7 @@ function HeroColor({ schedule, students }: { schedule: ScheduleResponse; student
               <div className="mt-5 space-y-3">
                 {students.map((student, i) => {
                   const art = student.colorMap[today.color!];
+                  const note = student.notes?.[today.color!];
                   return (
                     <div
                       key={student.id}
@@ -56,6 +57,11 @@ function HeroColor({ schedule, students }: { schedule: ScheduleResponse; student
                       <p className="text-white font-display text-4xl font-bold mt-0.5 leading-tight">
                         {art || "Not set"}
                       </p>
+                      {note && (
+                        <p className="text-white/60 text-xs mt-1">
+                          {note}
+                        </p>
+                      )}
                     </div>
                   );
                 })}
