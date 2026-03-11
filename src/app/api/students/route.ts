@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { id, name, colorMap } = body;
+  const { id, name, colorMap, notes } = body;
 
   const [row] = await db
     .insert(students)
@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
       userId: session.user.id,
       name,
       colorMap: colorMap || {},
+      notes: notes || {},
     })
     .returning();
 
@@ -47,7 +48,7 @@ export async function PUT(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { id, name, colorMap } = body;
+  const { id, name, colorMap, notes } = body;
 
   if (!id) {
     return NextResponse.json({ error: "Missing student id" }, { status: 400 });
@@ -55,7 +56,7 @@ export async function PUT(req: NextRequest) {
 
   const [row] = await db
     .update(students)
-    .set({ name, colorMap })
+    .set({ name, colorMap, notes: notes || {} })
     .where(and(eq(students.id, id), eq(students.userId, session.user.id)))
     .returning();
 

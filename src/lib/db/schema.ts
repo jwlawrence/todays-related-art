@@ -7,7 +7,7 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
-import type { ScheduleColor, RelatedArt } from "@/lib/types";
+import type { ScheduleColor, RelatedArt, Student } from "@/lib/types";
 
 // --- Auth.js required tables ---
 
@@ -67,6 +67,9 @@ export const students = pgTable("students", {
   colorMap: jsonb("colorMap")
     .$type<Partial<Record<ScheduleColor, RelatedArt>>>()
     .notNull()
+    .default({}),
+  notes: jsonb("notes")
+    .$type<Student["notes"]>()
     .default({}),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
