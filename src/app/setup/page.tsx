@@ -196,28 +196,6 @@ function StudentCard({
 function AccountSection() {
   const { data: session } = useSession();
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [widgetUrl, setWidgetUrl] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (session) {
-      fetch("/api/widget-token")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.token) {
-            setWidgetUrl(`${window.location.origin}/widget?token=${data.token}`);
-          }
-        })
-        .catch(() => {});
-    }
-  }, [session]);
-
-  const handleCopyWidgetUrl = async () => {
-    if (!widgetUrl) return;
-    await navigator.clipboard.writeText(widgetUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleDeleteAccount = async () => {
     await fetch("/api/account", { method: "DELETE" });
@@ -265,36 +243,6 @@ function AccountSection() {
           Sign out
         </button>
       </div>
-
-      {widgetUrl && (
-        <div className="bg-cream-dark/50 rounded-xl p-4 mb-3">
-          <p className="font-display font-bold text-ink text-sm mb-1">
-            Home Screen Widget
-          </p>
-          <p className="text-ink-muted text-xs mb-3">
-            See today&apos;s schedule on your home screen without opening the app.
-          </p>
-          <div className="bg-white rounded-lg p-3 mb-3 space-y-2">
-            <p className="text-xs font-semibold text-ink">Setup steps:</p>
-            <ol className="text-xs text-ink-muted space-y-1.5 list-decimal list-inside">
-              <li>Install a web widget app like <span className="font-semibold text-ink">Scriptable</span> (iOS) from the App Store</li>
-              <li>Copy the widget URL below</li>
-              <li>Create a new Scriptable widget that loads a WebView with this URL</li>
-              <li>Add the Scriptable widget to your home screen</li>
-            </ol>
-          </div>
-          <button
-            onClick={handleCopyWidgetUrl}
-            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-cream py-2.5 rounded-xl font-display font-bold text-xs text-ink-muted hover:text-ink transition-all active:scale-[0.98] border border-cream-dark"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-            </svg>
-            {copied ? "Copied!" : "Copy Widget URL"}
-          </button>
-        </div>
-      )}
 
       {confirmDelete ? (
         <div className="bg-day-red-soft rounded-xl p-4">
