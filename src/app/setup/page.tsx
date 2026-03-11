@@ -253,12 +253,20 @@ function AccountSection() {
       {widgetUrl && (
         <div className="bg-cream-dark/50 rounded-xl p-4 mb-3">
           <p className="font-display font-bold text-ink text-sm mb-1">
-            iOS Widget
+            Home Screen Widget
           </p>
           <p className="text-ink-muted text-xs mb-3">
-            Use this URL in an iOS web widget app (like Scriptable) to see your
-            schedule on your home screen.
+            See today&apos;s schedule on your home screen without opening the app.
           </p>
+          <div className="bg-white rounded-lg p-3 mb-3 space-y-2">
+            <p className="text-xs font-semibold text-ink">Setup steps:</p>
+            <ol className="text-xs text-ink-muted space-y-1.5 list-decimal list-inside">
+              <li>Install a web widget app like <span className="font-semibold text-ink">Scriptable</span> (iOS) from the App Store</li>
+              <li>Copy the widget URL below</li>
+              <li>Create a new Scriptable widget that loads a WebView with this URL</li>
+              <li>Add the Scriptable widget to your home screen</li>
+            </ol>
+          </div>
           <button
             onClick={handleCopyWidgetUrl}
             className="w-full flex items-center justify-center gap-2 bg-white hover:bg-cream py-2.5 rounded-xl font-display font-bold text-xs text-ink-muted hover:text-ink transition-all active:scale-[0.98] border border-cream-dark"
