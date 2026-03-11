@@ -125,6 +125,7 @@ function WidgetContent() {
               <div>
                 {students.map((student, i) => {
                   const art = student.colorMap[color];
+                  const note = student.notes?.[color];
                   return (
                     <div key={student.id} style={{ marginTop: i > 0 ? 10 : 0 }}>
                       <p className="widget-student-name" style={{ color: "rgba(255,255,255,0.4)", lineHeight: 1, margin: 0 }}>
@@ -133,6 +134,11 @@ function WidgetContent() {
                       <p className="widget-student-art" style={{ color: "white", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, lineHeight: 1.2, margin: 0 }}>
                         {art || "—"}
                       </p>
+                      {note && (
+                        <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 12, margin: "2px 0 0", lineHeight: 1.2 }}>
+                          {note}
+                        </p>
+                      )}
                     </div>
                   );
                 })}
