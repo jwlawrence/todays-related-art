@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { Student } from "@/lib/types";
 import {
   getStudents as getLocalStudents,
@@ -15,6 +15,7 @@ export function useStudents() {
 
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
+  const migrationDone = useRef(false);
 
   const fetchStudents = useCallback(async () => {
     setLoading(true);
@@ -25,7 +26,9 @@ export function useStudents() {
           const dbStudents = await res.json();
 
           // First sign-in migration: if DB is empty but localStorage has data, upload it
-          if (dbStudents.length === 0) {
+          // Only attempt once per session to avoid re-uploading after the last student is deleted
+          if (dbStudents.length === 0 && !migrationDone.current) {
+            migrationDone.current = true;
             const localStudents = getLocalStudents();
             if (localStudents.length > 0) {
               await Promise.all(
