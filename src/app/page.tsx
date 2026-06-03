@@ -279,10 +279,12 @@ export default function HomePage() {
           Today&apos;s Related Art
         </h1>
         <div className="flex items-center gap-2">
-          {session?.user && (
+          {session?.user ? (
             <span className="w-6 h-6 rounded-full bg-cream-dark flex items-center justify-center text-[10px] font-bold text-ink-muted">
               {(session.user.name || session.user.email || "?")[0].toUpperCase()}
             </span>
+          ) : (
+            <SignInButton variant="compact" />
           )}
           <Link
             href="/setup"
