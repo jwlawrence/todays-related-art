@@ -20,7 +20,7 @@ export function SignInButton({
   variant?: Variant;
   className?: string;
 }) {
-  const handleClick = () => signIn("google");
+  const handleClick = () => void signIn("google");
 
   if (variant === "primary") {
     return (
