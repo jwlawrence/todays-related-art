@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { SignInButton } from "@/components/SignInButton";
 import { useSession } from "next-auth/react";
 import { useStudents } from "@/hooks/useStudents";
 import { getColorStyle, COLOR_CONFIG } from "@/lib/colors";
@@ -218,15 +219,19 @@ function EmptyState() {
         Your school uses color days to rotate specials like Music, Art, and PE.
         Add your child and map each color to their class.
       </p>
-      <p className="text-ink-muted mb-8 max-w-xs text-xs leading-relaxed">
+      <p className="text-ink-muted mb-6 max-w-xs text-xs leading-relaxed">
         Check the schedule sheet from your child&apos;s teacher to find
         which color matches which class.
       </p>
+      <SignInButton variant="primary" />
+      <p className="text-ink-muted mt-3 mb-5 max-w-xs text-xs leading-relaxed">
+        Already set up your students? Sign in to restore them.
+      </p>
       <Link
         href="/setup"
-        className="inline-block bg-ink text-cream px-8 py-3.5 rounded-2xl font-display font-bold text-base hover:bg-ink/90 transition-all hover:scale-[1.02] active:scale-[0.98]"
+        className="text-sm font-display font-bold text-ink-muted hover:text-ink transition-colors underline underline-offset-4 decoration-ink-muted/30 hover:decoration-ink"
       >
-        Add a Student
+        Or add a student without signing in
       </Link>
     </div>
   );
