@@ -25,6 +25,7 @@ export function SignInButton({
   if (variant === "primary") {
     return (
       <button
+        type="button"
         onClick={handleClick}
         className={`inline-flex items-center justify-center gap-2 bg-ink text-cream px-8 py-3.5 rounded-2xl font-display font-bold text-base hover:bg-ink/90 transition-all hover:scale-[1.02] active:scale-[0.98] ${className}`}
       >
@@ -39,6 +40,7 @@ export function SignInButton({
   if (variant === "compact") {
     return (
       <button
+        type="button"
         onClick={handleClick}
         className={`inline-flex items-center gap-1.5 text-xs font-semibold text-ink-muted hover:text-ink transition-colors bg-cream-dark hover:bg-white px-3 py-1.5 rounded-full ${className}`}
       >
@@ -51,6 +53,7 @@ export function SignInButton({
   // secondary (default) — matches existing AccountSection styling
   return (
     <button
+      type="button"
       onClick={handleClick}
       className={`w-full flex items-center justify-center gap-2 bg-white border border-cream-dark hover:bg-cream-dark py-3 rounded-xl font-display font-bold text-sm text-ink transition-all active:scale-[0.98] ${className}`}
     >
