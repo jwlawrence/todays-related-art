@@ -28,12 +28,12 @@ function getDayName(dateStr: string): string {
   return d.toLocaleDateString("en-US", { weekday: "long" });
 }
 
-function getWeekDates(todayStr: string): string[] {
+function getWeekDates(todayStr: string, weekOffset = 0): string[] {
   const [year, month, day] = todayStr.split("-").map(Number);
   const today = new Date(year, month - 1, day);
   const dow = today.getDay();
   const monday = new Date(today);
-  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1) + weekOffset * 7);
 
   const dates: string[] = [];
   for (let i = 0; i < 5; i++) {
@@ -45,6 +45,33 @@ function getWeekDates(todayStr: string): string[] {
     dates.push(`${y}-${m}-${dd}`);
   }
   return dates;
+}
+
+// Forward paging is bounded by the feed's real horizon
+function getMaxFeedDate(colorMap: Map<string, ScheduleColor>): string | null {
+  let max: string | null = null;
+  for (const dateStr of colorMap.keys()) {
+    if (max === null || dateStr > max) max = dateStr;
+  }
+  return max;
+}
+
+function nextWeekHasData(
+  todayStr: string,
+  weekOffset: number,
+  colorMap: Map<string, ScheduleColor>
+): boolean {
+  const maxDate = getMaxFeedDate(colorMap);
+  if (!maxDate) return false;
+  const nextMonday = getWeekDates(todayStr, weekOffset + 1)[0];
+  return nextMonday <= maxDate;
+}
+
+function parseWeekOffset(request: Request): number {
+  const raw = new URL(request.url).searchParams.get("offset");
+  const parsed = raw === null ? 0 : parseInt(raw, 10);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.min(Math.max(parsed, 0), 60);
 }
 
 function parseICSData(icsText: string): Map<string, ScheduleColor> {
@@ -110,11 +137,12 @@ async function fetchAndParseICS(): Promise<Map<string, ScheduleColor>> {
   return colorMap;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const weekOffset = parseWeekOffset(request);
   try {
     const colorMap = await fetchAndParseICS();
     const todayStr = getSchoolTodayStr();
-    const weekDates = getWeekDates(todayStr);
+    const weekDates = getWeekDates(todayStr, weekOffset);
 
     const todayColor = colorMap.get(todayStr) || null;
 
@@ -135,6 +163,8 @@ export async function GET() {
     const response: ScheduleResponse = {
       today,
       week,
+      weekOffset,
+      hasNext: nextWeekHasData(todayStr, weekOffset, colorMap),
       lastUpdated: new Date().toISOString(),
     };
 
@@ -145,7 +175,7 @@ export async function GET() {
     // If we have stale cache, serve it
     if (cachedColorMap) {
       const todayStr = getSchoolTodayStr();
-      const weekDates = getWeekDates(todayStr);
+      const weekDates = getWeekDates(todayStr, weekOffset);
 
       const response: ScheduleResponse = {
         today: {
@@ -160,6 +190,8 @@ export async function GET() {
           color: cachedColorMap!.get(dateStr) || null,
           isToday: dateStr === todayStr,
         })),
+        weekOffset,
+        hasNext: nextWeekHasData(todayStr, weekOffset, cachedColorMap),
         lastUpdated: new Date(cacheTimestamp).toISOString(),
       };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { SignInButton } from "@/components/SignInButton";
 import { useSession } from "next-auth/react";
@@ -13,6 +13,16 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 function shortDate(iso: string): string {
   const [, m, d] = iso.split("-").map(Number);
   return `${MONTHS[m - 1]} ${d}`.toUpperCase();
+}
+
+function weekRangeLabel(week: DaySchedule[]): string {
+  if (week.length === 0) return "";
+  const first = week[0];
+  const last = week[week.length - 1];
+  const [, fm, fd] = first.date.split("-").map(Number);
+  const [, lm, ld] = last.date.split("-").map(Number);
+  if (fm === lm) return `${MONTHS[fm - 1]} ${fd}–${ld}`.toUpperCase();
+  return `${MONTHS[fm - 1]} ${fd} – ${MONTHS[lm - 1]} ${ld}`.toUpperCase();
 }
 
 function editionLabel(): string {
@@ -104,7 +114,7 @@ function DayBoard({
     return (
       <section
         key={day.date}
-        className="step-hinge bg-board-shade py-14 pl-5 pr-16 sm:pl-8"
+        className="step-hinge min-h-[272px] bg-board-shade py-14 pl-5 pr-16 sm:pl-8"
         aria-label="No school"
       >
         <p className="type-legend text-[12px] text-ink-soft">
@@ -120,7 +130,7 @@ function DayBoard({
   return (
     <section
       key={day.date}
-      className="step-hinge pb-8 pl-5 pr-16 pt-6 sm:pl-8"
+      className="step-hinge min-h-[272px] pb-8 pl-5 pr-16 pt-6 sm:pl-8"
       style={{ backgroundColor: config.board }}
       aria-label={`${day.dayName}: ${config.label} day`}
     >
@@ -156,22 +166,118 @@ function DayBoard({
   );
 }
 
-/* Contents table: the week as the manual's section index */
+/* A pressed arrow button for turning the index's pages */
+function PagerButton({
+  direction,
+  onClick,
+  disabled,
+  label,
+}: {
+  direction: "back" | "forward";
+  onClick: () => void;
+  disabled: boolean;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      className={`step-motion flex h-7 w-7 items-center justify-center rounded-[3px] border ${
+        disabled
+          ? "rule-faint text-ink-faint"
+          : "border-ink bg-milk text-ink hover:bg-board"
+      }`}
+    >
+      <svg
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.25"
+        strokeLinecap="square"
+        aria-hidden="true"
+      >
+        {direction === "back" ? (
+          <path d="M20 12H5M11 6l-6 6 6 6" />
+        ) : (
+          <path d="M4 12h15M13 6l6 6-6 6" />
+        )}
+      </svg>
+    </button>
+  );
+}
+
+/* Contents table: the week as the manual's section index, paging forward */
 function WeekIndex({
   week,
   students,
   selectedDate,
   onSelect,
+  weekOffset,
+  hasNext,
+  weekLoading,
+  weekError,
+  onTurnWeek,
 }: {
   week: DaySchedule[];
   students: Student[];
   selectedDate: string;
   onSelect: (date: string) => void;
+  weekOffset: number;
+  hasNext: boolean;
+  weekLoading: boolean;
+  weekError: number | null;
+  onTurnWeek: (offset: number) => void;
 }) {
   return (
-    <section className="px-5 pb-8 pt-6 sm:px-8" aria-label="This week">
-      <h2 className="type-legend text-[12px] text-ink">This week</h2>
-      <div className="mt-2 border-b rule-faint">
+    <section
+      className="px-5 pb-8 pt-6 sm:px-8"
+      aria-label={weekOffset === 0 ? "This week" : `Week of ${week[0]?.dayName ?? ""} ${week[0]?.date ?? ""}`}
+      aria-busy={weekLoading}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="type-legend text-[12px] text-ink">
+          {weekOffset === 0 ? "This week" : "Looking ahead"}
+        </h2>
+        <div className="flex items-center gap-2">
+          <p className="type-mono mr-1 text-[11px] text-ink-soft" aria-live="polite">
+            {weekRangeLabel(week)}
+          </p>
+          <PagerButton
+            direction="back"
+            onClick={() => onTurnWeek(weekOffset - 1)}
+            disabled={weekOffset === 0 || weekLoading}
+            label="Back one week"
+          />
+          <PagerButton
+            direction="forward"
+            onClick={() => onTurnWeek(weekOffset + 1)}
+            disabled={!hasNext || weekLoading}
+            label="Ahead one week"
+          />
+        </div>
+      </div>
+
+      {weekError !== null && (
+        <div className="mt-3 border border-vermilion bg-milk px-4 py-3">
+          <p className="type-legend text-[11px] text-vermilion-deep">Errata</p>
+          <p className="mt-1 text-[14px] font-medium text-ink">
+            That week could not be loaded.
+          </p>
+          <button
+            type="button"
+            onClick={() => onTurnWeek(weekError)}
+            className="type-legend step-motion mt-1.5 text-[11px] text-ink underline underline-offset-4"
+          >
+            Try again
+          </button>
+        </div>
+      )}
+
+      <div key={week[0]?.date} className="step-hinge mt-2 border-b rule-faint">
         {week.map((day) => {
           const config = day.color ? COLOR_CONFIG[day.color] : null;
           const isSelected = day.date === selectedDate;
@@ -242,7 +348,7 @@ function TabRail({
 }) {
   return (
     <nav
-      className="absolute right-0 top-36 z-10 flex flex-col gap-[3px]"
+      className="absolute right-0 top-5 z-10 flex flex-col gap-[3px]"
       aria-label="Week tabs"
     >
       {week.map((day) => {
@@ -358,6 +464,8 @@ function EmptyState() {
   );
 }
 
+type WeekPage = { week: DaySchedule[]; hasNext: boolean };
+
 export default function HomePage() {
   const { data: session } = useSession();
   const { students, loading: studentsLoading } = useStudents();
@@ -365,6 +473,10 @@ export default function HomePage() {
   const [scheduleLoading, setScheduleLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [weekOffset, setWeekOffset] = useState(0);
+  const [weekPages, setWeekPages] = useState<Record<number, WeekPage>>({});
+  const [weekLoading, setWeekLoading] = useState(false);
+  const [weekError, setWeekError] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/schedule")
@@ -372,22 +484,59 @@ export default function HomePage() {
         if (!res.ok) throw new Error("Failed to fetch schedule");
         return res.json();
       })
-      .then((data: ScheduleResponse) => setSchedule(data))
+      .then((data: ScheduleResponse) => {
+        setSchedule(data);
+        setWeekPages({ 0: { week: data.week, hasNext: data.hasNext ?? false } });
+      })
       .catch((err) => setError(err.message))
       .finally(() => setScheduleLoading(false));
   }, []);
 
-  // The section the manual lies open at: the chosen tab, else today, else the
-  // next school day in the week when today is off.
+  // Turn the index to another week, fetching its page on first visit
+  const turnWeek = useCallback(
+    async (offset: number) => {
+      if (offset < 0) return;
+      setWeekError(null);
+      if (weekPages[offset]) {
+        setWeekOffset(offset);
+        return;
+      }
+      setWeekLoading(true);
+      try {
+        const res = await fetch(`/api/schedule?offset=${offset}`);
+        if (!res.ok) throw new Error("Failed to fetch week");
+        const data: ScheduleResponse = await res.json();
+        setWeekPages((prev) => ({
+          ...prev,
+          [offset]: { week: data.week, hasNext: data.hasNext ?? false },
+        }));
+        setWeekOffset(offset);
+      } catch {
+        setWeekError(offset);
+      } finally {
+        setWeekLoading(false);
+      }
+    },
+    [weekPages]
+  );
+
+  const viewedPage: WeekPage | null =
+    weekPages[weekOffset] ??
+    (schedule ? { week: schedule.week, hasNext: schedule.hasNext ?? false } : null);
+
+  // The section the manual lies open at: the chosen tab (from any loaded
+  // week), else today, else the next school day in the week when today is off.
   const openDay: DaySchedule | null = useMemo(() => {
     if (!schedule) return null;
     if (selectedDate) {
-      const picked = schedule.week.find((d) => d.date === selectedDate);
-      if (picked) return picked;
+      for (const page of Object.values(weekPages)) {
+        const picked = page.week.find((d) => d.date === selectedDate);
+        if (picked) return picked;
+      }
     }
     if (schedule.today.color) return schedule.today;
     return schedule.week.find((d) => !d.isToday && d.color) ?? schedule.today;
-  }, [schedule, selectedDate]);
+  }, [schedule, selectedDate, weekPages]);
 
   if (scheduleLoading || studentsLoading) return <LoadingState />;
   if (error) return <ErrorState message={error} />;
@@ -398,7 +547,7 @@ export default function HomePage() {
   const showingSubstitute = !selectedDate && todayIsOff && openDay.date !== schedule.today.date;
 
   return (
-    <div className="relative mx-auto w-full max-w-md bg-board md:my-10 md:border md:rule-faint md:shadow-[0_18px_60px_rgba(23,21,15,0.22)]">
+    <div className="relative mx-auto w-full max-w-md bg-board page:my-8 page:border page:rule-faint page:shadow-[0_18px_60px_rgba(23,21,15,0.22)] md:my-10">
       {/* Running header */}
       <header className="px-5 pt-5 sm:px-8">
         <div className="flex items-baseline justify-between gap-3">
@@ -432,19 +581,25 @@ export default function HomePage() {
         </div>
       </header>
 
-      <TabRail
-        week={schedule.week}
-        selectedDate={openDay.date}
-        onSelect={setSelectedDate}
-      />
+      {/* The open section carries its own fore-edge tabs */}
+      <div className="relative">
+        <TabRail
+          week={viewedPage?.week ?? schedule.week}
+          selectedDate={openDay.date}
+          onSelect={setSelectedDate}
+        />
+        <DayBoard day={openDay} students={students} todayIsOff={showingSubstitute} />
+      </div>
 
-      <DayBoard day={openDay} students={students} todayIsOff={showingSubstitute} />
-
-      {selectedDate && selectedDate !== schedule.today.date && (
+      {((selectedDate && selectedDate !== schedule.today.date) || weekOffset > 0) && (
         <div className="px-5 pt-3 sm:px-8">
           <button
             type="button"
-            onClick={() => setSelectedDate(null)}
+            onClick={() => {
+              setSelectedDate(null);
+              setWeekOffset(0);
+              setWeekError(null);
+            }}
             className="type-legend step-motion text-[11px] text-ink underline underline-offset-4"
           >
             Return to today
@@ -453,10 +608,15 @@ export default function HomePage() {
       )}
 
       <WeekIndex
-        week={schedule.week}
+        week={viewedPage?.week ?? schedule.week}
         students={students}
         selectedDate={openDay.date}
         onSelect={setSelectedDate}
+        weekOffset={weekOffset}
+        hasNext={viewedPage?.hasNext ?? false}
+        weekLoading={weekLoading}
+        weekError={weekError}
+        onTurnWeek={turnWeek}
       />
 
       {/* Colophon */}
