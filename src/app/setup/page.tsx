@@ -14,6 +14,17 @@ import {
   type RelatedArt,
 } from "@/lib/types";
 
+function TabSwatch({ color, size = "h-6 w-9" }: { color: ScheduleColor; size?: string }) {
+  const config = COLOR_CONFIG[color];
+  return (
+    <span
+      className={`inline-block shrink-0 rounded-r-[4px] ${size}`}
+      style={{ backgroundColor: config.board }}
+      aria-hidden="true"
+    />
+  );
+}
+
 function StudentForm({
   initial,
   onSave,
@@ -42,46 +53,62 @@ function StudentForm({
     });
   };
 
+  const inputClass =
+    "step-motion w-full rounded-[3px] border border-ink/30 bg-milk px-3 py-2.5 type-mono text-[14px] text-ink placeholder:text-ink-faint focus:border-ink outline-none";
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up"
+      className="step-hinge bg-milk p-5"
+      style={{ boxShadow: "0 2px 6px rgba(23, 21, 15, 0.28)" }}
     >
-      <div className="mb-5">
-        <label className="block text-xs font-bold text-ink-muted uppercase tracking-wider mb-2">
-          Student Name
+      <p className="type-legend text-[11px] text-ink-soft">
+        {initial ? "Revise entry" : "New entry"}
+      </p>
+
+      <div className="mt-4">
+        <label
+          htmlFor="student-name"
+          className="type-legend block text-[11px] text-ink"
+        >
+          Student name
         </label>
         <input
+          id="student-name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-4 py-3 bg-cream rounded-xl font-display font-medium text-ink placeholder:text-ink-muted/50 focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
+          className={`mt-2 ${inputClass}`}
           placeholder="e.g., Emma"
           required
           autoFocus={!initial}
         />
       </div>
 
-      <p className="text-xs font-bold text-ink-muted uppercase tracking-wider mb-3">
+      <p className="type-legend mt-6 border-t rule-faint pt-4 text-[11px] text-ink">
         What does each color day mean?
       </p>
-      <div className="space-y-2 mb-6">
-        {COLORS.map((color, i) => {
+      <p className="type-mono mt-1 text-[12px] text-ink-faint">
+        From the teacher&apos;s schedule sheet.
+      </p>
+
+      <div className="mt-4 space-y-4">
+        {COLORS.map((color) => {
           const config = COLOR_CONFIG[color];
           return (
-            <div
-              key={color}
-              className="flex items-start gap-3 animate-slide-up"
-              style={{ animationDelay: `${i * 50}ms` }}
-            >
-              <div className="flex items-center gap-2 w-28 shrink-0 pt-2.5">
-                <span className={`w-4 h-4 rounded-full ${config.solid} shrink-0`} />
-                <span className={`font-display font-bold text-sm ${config.text}`}>
+            <div key={color} className="flex items-start gap-3">
+              <div className="flex w-24 shrink-0 items-center gap-2 pt-2.5">
+                <TabSwatch color={color} size="h-5 w-8" />
+                <label
+                  htmlFor={`map-${color}`}
+                  className="type-legend text-[11px] text-ink"
+                >
                   {config.label}
-                </span>
+                </label>
               </div>
               <div className="flex-1">
                 <input
+                  id={`map-${color}`}
                   list={`arts-${color}`}
                   value={colorMap[color] ?? ""}
                   onChange={(e) =>
@@ -90,8 +117,8 @@ function StudentForm({
                       [color]: e.target.value || undefined,
                     }))
                   }
-                  placeholder="Select or type..."
-                  className="w-full px-3 py-2.5 bg-cream rounded-xl text-sm font-medium text-ink placeholder:text-ink-muted/50 focus:ring-2 focus:ring-ink/10 focus:bg-white outline-none transition-all"
+                  placeholder="Select or type…"
+                  className={inputClass}
                 />
                 <datalist id={`arts-${color}`}>
                   {RELATED_ARTS.map((art) => (
@@ -108,8 +135,9 @@ function StudentForm({
                         [color]: e.target.value || undefined,
                       }))
                     }
-                    placeholder="What to bring..."
-                    className="w-full px-3 py-2 bg-cream/60 rounded-lg text-xs text-ink-light placeholder:text-ink-muted/40 focus:ring-1 focus:ring-ink/10 focus:bg-white outline-none transition-all mt-1.5"
+                    placeholder="What to bring…"
+                    aria-label={`What to bring on ${config.label} days`}
+                    className={`mt-2 ${inputClass} text-[13px]`}
                   />
                 )}
               </div>
@@ -118,17 +146,18 @@ function StudentForm({
         })}
       </div>
 
-      <div className="flex gap-2">
+      <div className="mt-6 flex items-center gap-4 border-t rule-faint pt-4">
         <button
           type="submit"
-          className="flex-1 bg-ink text-cream py-3 rounded-xl font-display font-bold hover:bg-ink/90 transition-all active:scale-[0.98]"
+          className="type-legend step-motion flex-1 rounded-[3px] border border-ink bg-day-yellow py-3 text-[12px] text-ink hover:bg-milk"
+          style={{ boxShadow: "0 2px 6px rgba(23, 21, 15, 0.28)" }}
         >
-          {initial ? "Save Changes" : "Add Student"}
+          {initial ? "Save changes" : "Add student"}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="px-5 py-3 text-ink-muted hover:text-ink font-display font-bold transition-colors rounded-xl hover:bg-cream-dark"
+          className="type-legend step-motion px-2 py-3 text-[12px] text-ink-soft underline underline-offset-4 hover:text-ink"
         >
           Cancel
         </button>
@@ -141,52 +170,59 @@ function StudentCard({
   student,
   onEdit,
   onDelete,
-  index,
 }: {
   student: Student;
   onEdit: () => void;
   onDelete: () => void;
-  index: number;
 }) {
   return (
     <div
-      className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up"
-      style={{ animationDelay: `${index * 80}ms` }}
+      className="bg-milk p-5"
+      style={{ boxShadow: "0 2px 6px rgba(23, 21, 15, 0.28)" }}
     >
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="font-display text-lg font-bold text-ink">
-          {student.name}
-        </h3>
-        <div className="flex gap-1">
+      <div className="flex items-baseline justify-between gap-3">
+        <h3 className="type-display text-[1.35rem] text-ink">{student.name}</h3>
+        <div className="flex gap-4">
           <button
             onClick={onEdit}
-            className="text-xs font-semibold text-ink-muted hover:text-ink px-2.5 py-1 rounded-lg hover:bg-cream-dark transition-all"
+            className="type-legend step-motion text-[11px] text-ink underline underline-offset-4 hover:text-ink-soft"
           >
             Edit
           </button>
           <button
             onClick={onDelete}
-            className="text-xs font-semibold text-ink-muted hover:text-day-red px-2.5 py-1 rounded-lg hover:bg-day-red-soft transition-all"
+            className="type-legend step-motion text-[11px] text-ink-soft underline underline-offset-4 hover:text-vermilion-deep"
           >
             Remove
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="mt-3 border-b rule-faint">
         {COLORS.map((color) => {
           const config = COLOR_CONFIG[color];
           const art = student.colorMap[color];
-          if (!art) return null;
           return (
-            <span
+            <div
               key={color}
-              className={`inline-flex items-center gap-1.5 ${config.soft} px-2.5 py-1 rounded-full`}
+              className="flex items-center gap-3 border-t rule-faint py-1.5"
             >
-              <span className={`w-2 h-2 rounded-full ${config.solid}`} />
-              <span className={`text-xs font-semibold ${config.text}`}>
-                {art}
+              <TabSwatch color={color} size="h-4 w-7" />
+              <span className="type-legend w-14 text-[10px] text-ink-soft">
+                {config.label}
               </span>
-            </span>
+              {art ? (
+                <span className="type-mono text-[13px] text-ink">{art}</span>
+              ) : (
+                <span className="type-mono text-[13px] text-vermilion-deep">
+                  not mapped
+                </span>
+              )}
+              {art && student.notes?.[color] && (
+                <span className="type-mono min-w-0 flex-1 truncate text-right text-[11px] text-ink-faint">
+                  {student.notes[color]}
+                </span>
+              )}
+            </div>
           );
         })}
       </div>
@@ -205,11 +241,12 @@ function AccountSection() {
 
   if (!session) {
     return (
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up">
-        <p className="font-display font-bold text-ink text-sm mb-1">
-          Sync across devices
-        </p>
-        <p className="text-ink-muted text-xs mb-4">
+      <div
+        className="bg-milk p-5"
+        style={{ boxShadow: "0 2px 6px rgba(23, 21, 15, 0.28)" }}
+      >
+        <p className="type-legend text-[11px] text-ink">Sync across devices</p>
+        <p className="type-mono mt-1.5 mb-4 text-[12px] text-ink-soft">
           Sign in to access your students on any device.
         </p>
         <SignInButton variant="secondary" />
@@ -218,41 +255,46 @@ function AccountSection() {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-cream-dark animate-slide-up">
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <p className="font-display font-bold text-ink text-sm">
+    <div
+      className="bg-milk p-5"
+      style={{ boxShadow: "0 2px 6px rgba(23, 21, 15, 0.28)" }}
+    >
+      <div className="flex items-baseline justify-between gap-3">
+        <div className="min-w-0">
+          <p className="type-legend truncate text-[11px] text-ink">
             {session.user?.name || session.user?.email}
           </p>
-          <p className="text-ink-muted text-xs">Synced across devices</p>
+          <p className="type-mono mt-1 text-[12px] text-ink-soft">
+            Synced across devices
+          </p>
         </div>
         <button
           onClick={() => signOut()}
-          className="text-xs font-semibold text-ink-muted hover:text-ink px-2.5 py-1 rounded-lg hover:bg-cream-dark transition-all"
+          className="type-legend step-motion shrink-0 text-[11px] text-ink underline underline-offset-4 hover:text-ink-soft"
         >
           Sign out
         </button>
       </div>
 
       {confirmDelete ? (
-        <div className="bg-day-red-soft rounded-xl p-4">
-          <p className="text-sm font-display font-bold text-ink mb-1">
+        <div className="mt-4 border border-vermilion bg-milk p-4">
+          <p className="type-legend text-[11px] text-vermilion-deep">
             Delete your account?
           </p>
-          <p className="text-xs text-ink-muted mb-3">
-            This permanently removes your account and all student data from
-            our servers. Local data on this device will be kept.
+          <p className="type-mono mt-2 mb-3 text-[12px] leading-relaxed text-ink-soft">
+            This permanently removes your account and all student data from our
+            servers. Local data on this device will be kept.
           </p>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-4">
             <button
               onClick={handleDeleteAccount}
-              className="flex-1 bg-day-red text-white py-2 rounded-lg font-display font-bold text-xs hover:bg-day-red/90 transition-all"
+              className="type-legend step-motion flex-1 rounded-[3px] border border-vermilion-deep bg-vermilion-deep py-2.5 text-[11px] text-milk hover:bg-milk hover:text-vermilion-deep"
             >
               Permanently delete
             </button>
             <button
               onClick={() => setConfirmDelete(false)}
-              className="px-4 py-2 text-ink-muted font-display font-bold text-xs hover:bg-cream-dark rounded-lg transition-all"
+              className="type-legend step-motion text-[11px] text-ink-soft underline underline-offset-4 hover:text-ink"
             >
               Cancel
             </button>
@@ -261,7 +303,7 @@ function AccountSection() {
       ) : (
         <button
           onClick={() => setConfirmDelete(true)}
-          className="text-xs text-ink-muted hover:text-day-red transition-colors"
+          className="type-mono step-motion mt-4 text-[11px] text-ink-faint hover:text-vermilion-deep"
         >
           Delete account and data
         </button>
@@ -298,31 +340,34 @@ export default function SetupPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[40vh]">
-        <p className="text-ink-muted font-display text-sm">Loading...</p>
+      <div className="mx-auto flex min-h-[40vh] w-full max-w-md items-center justify-center px-5">
+        <p className="type-mono text-[13px] text-ink-soft">Loading…</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between animate-fade-in">
-        <h1 className="font-display text-lg font-bold text-ink">
-          Students
-        </h1>
-        <button
-          onClick={() => router.push("/")}
-          className="text-xs font-semibold text-ink-muted hover:text-ink transition-colors bg-cream-dark hover:bg-white px-3 py-1.5 rounded-full flex items-center gap-1"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Schedule
-        </button>
-      </div>
+    <div className="mx-auto w-full max-w-md bg-board px-5 pb-12 sm:px-8 md:my-10 md:border md:rule-faint md:shadow-[0_18px_60px_rgba(23,21,15,0.22)]">
+      {/* Running header */}
+      <header className="pt-5">
+        <div className="flex items-baseline justify-between gap-3">
+          <h1 className="type-legend text-[13px] text-ink">Students</h1>
+          <button
+            onClick={() => router.push("/")}
+            className="type-legend step-motion text-[11px] text-ink underline underline-offset-4 hover:text-ink-soft"
+          >
+            Back to schedule
+          </button>
+        </div>
+        <div className="mt-3 border-t-2 border-ink pt-1.5 pb-2">
+          <p className="type-mono text-[11px] text-ink-soft">
+            Color-day mappings · one entry per student
+          </p>
+        </div>
+      </header>
 
-      {/* Student list */}
-      <div className="space-y-3">
-        {students.map((student, i) =>
+      <div className="mt-4 space-y-5">
+        {students.map((student) =>
           editingId === student.id ? (
             <StudentForm
               key={student.id}
@@ -336,26 +381,27 @@ export default function SetupPage() {
               student={student}
               onEdit={() => setEditingId(student.id)}
               onDelete={() => handleDelete(student.id)}
-              index={i}
             />
           )
         )}
+
+        {showAddForm ? (
+          <StudentForm
+            onSave={handleAdd}
+            onCancel={() => setShowAddForm(false)}
+          />
+        ) : (
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="type-legend step-motion w-full py-4 text-[12px] text-ink-soft hover:text-ink"
+            style={{ outline: "1.5px dotted var(--color-ink-faint)", outlineOffset: "-1.5px" }}
+          >
+            + Add student
+          </button>
+        )}
+
+        <AccountSection />
       </div>
-
-      {/* Add form or button */}
-      {showAddForm ? (
-        <StudentForm onSave={handleAdd} onCancel={() => setShowAddForm(false)} />
-      ) : (
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="w-full py-4 border-2 border-dashed border-ink-muted/20 rounded-2xl text-ink-muted hover:border-ink/30 hover:text-ink hover:bg-white transition-all font-display font-bold text-sm active:scale-[0.99]"
-        >
-          + Add Student
-        </button>
-      )}
-
-      {/* Account */}
-      <AccountSection />
     </div>
   );
 }
