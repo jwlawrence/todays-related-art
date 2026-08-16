@@ -36,6 +36,9 @@ body {
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* The page never scrolls sideways; overflowing print is clipped at the
+     viewport so the fore-edge rail stays bound to the screen edge. */
+  overflow-x: clip;
 }
 
 /* Any viewport wider than the page column shows the desk beneath it */

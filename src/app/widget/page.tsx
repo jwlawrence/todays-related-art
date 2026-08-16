@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getStudents } from "@/lib/students";
 import { COLOR_CONFIG } from "@/lib/colors";
+import { softBreakArt } from "@/lib/format";
 import type { Student, ScheduleResponse } from "@/lib/types";
 
 const BOARD_STOCK = "#F2EDDF";
@@ -141,8 +142,8 @@ function WidgetContent() {
                         {student.name}
                       </p>
                       {art ? (
-                        <p className="widget-student-art" style={{ color: onBoard, margin: 0 }}>
-                          {art}
+                        <p className="widget-student-art" style={{ color: onBoard, margin: 0, overflowWrap: "anywhere" }}>
+                          {softBreakArt(art)}
                         </p>
                       ) : (
                         <p className="widget-mono" style={{ color: onBoard, margin: "2px 0 0" }}>
