@@ -168,10 +168,10 @@ The four voices are CSS classes in `src/app/globals.css`; sizes are set per use,
 
 One narrow centered column, `max-w-md` (28rem), designed for a phone held in one hand. Horizontal padding is `px-5` on mobile, `sm:px-8` at ≥640px. There is no multi-column layout anywhere.
 
-- **Mobile (<768px):** the page is the screen — board stock edge to edge.
-- **Desktop (≥768px):** the body background switches to `board-shade` and the column becomes a manual lying on a desk: `md:my-10`, a faint hairline border (`md:border md:rule-faint`), and the desk shadow (see Elevation & Depth).
+- **Narrow (viewport ≤ column):** the page is the screen — board stock edge to edge.
+- **Wider than the column (≥28rem, the `page:` breakpoint):** the moment gutters would appear, the body background switches to `board-shade` and the column becomes a manual lying on a desk: `page:my-8` (`md:my-10`), a faint hairline border (`page:border page:rule-faint`), and the desk shadow (see Elevation & Depth). The page edge is never invisible — if there is space beside the column, the desk shows.
 - **Running header:** every page opens with a baseline-aligned row (13px legend title left, legend/mono utility links right), then a heavy `border-t-2 border-ink` rule with the mono dateline/edition line under it. This is the manual's running head; new pages must reproduce it.
-- **Tab rail:** on the home page a vertical stepped rail hangs at the fore edge (`absolute right-0 top-36`), one 44px-tall tab per weekday, 3px gaps; the open day's tab extends wider (`w-12` vs `w-8`). Day-board content reserves `pr-16` so the rail never covers the reading.
+- **Tab rail:** on the home page a vertical stepped rail hangs at the fore edge of the *open board* (`absolute right-0 top-5` inside the board's relative wrapper), one 44px-tall tab per weekday, 3px gaps; the open day's tab extends wider (`w-12` vs `w-8`). Boards carry `min-h-[272px]` so the section is always tall enough for its tab stack, and board content reserves `pr-16` so the rail never covers the reading.
 - **Colophon:** pages close with a hairline-ruled footer in 10px mono, ink-faint — edition label, data source, non-affiliation.
 - **Grain:** a fixed, pointer-transparent fractal-noise overlay (`body::after`, 240px SVG tile, opacity 0.05, z-40) sits over the entire viewport, unifying ink, boards, and stock as one printed sheet.
 
@@ -185,7 +185,7 @@ Depth is physical, not atmospheric: sheets of paper casting small soft shadows o
 
 - **Paper** (`box-shadow: 0 2px 6px rgba(23, 21, 15, 0.28)`): the standard lift for anything laid on the page — acetate leaves, milk sheets (forms, cards, notices, errata slips), and the chrome-yellow primary button.
 - **Tab** (`box-shadow: 0 1px 3px rgba(23, 21, 15, 0.25)`): the shallower lift of the fore-edge rail tabs.
-- **Desk** (`box-shadow: 0 18px 60px rgba(23, 21, 15, 0.22)`, as `md:shadow-[…]`): desktop only; the whole page's shadow on the desk.
+- **Desk** (`box-shadow: 0 18px 60px rgba(23, 21, 15, 0.22)`, as `page:shadow-[…]`): whenever the desk shows (viewport ≥28rem); the whole page's shadow on the desk.
 
 All three are ink-tinted (23, 21, 15 = `ink`). Punch holes are the inverse device: depth by *revealing* the layer beneath (a leaf's holes are filled with the board color; the week index's selected tab is punched with board stock).
 
