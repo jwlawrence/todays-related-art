@@ -27,5 +27,9 @@ export interface DaySchedule {
 export interface ScheduleResponse {
   today: DaySchedule;
   week: DaySchedule[];
+  /** Which week `week` describes, in whole weeks ahead of the current one */
+  weekOffset?: number;
+  /** Whether the feed has any data in the week after `week` */
+  hasNext?: boolean;
   lastUpdated: string;
 }

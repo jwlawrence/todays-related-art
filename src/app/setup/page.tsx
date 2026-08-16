@@ -347,7 +347,7 @@ export default function SetupPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md bg-board px-5 pb-12 sm:px-8 md:my-10 md:border md:rule-faint md:shadow-[0_18px_60px_rgba(23,21,15,0.22)]">
+    <div className="mx-auto w-full max-w-md bg-board px-5 pb-12 sm:px-8 page:my-8 page:border page:rule-faint page:shadow-[0_18px_60px_rgba(23,21,15,0.22)] md:my-10">
       {/* Running header */}
       <header className="pt-5">
         <div className="flex items-baseline justify-between gap-3">

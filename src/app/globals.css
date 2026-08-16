@@ -25,6 +25,9 @@
   --font-head: var(--font-archivo), 'Helvetica Neue', sans-serif;
   --font-body: var(--font-garamond), Georgia, serif;
   --font-mono: var(--font-fragment), 'Courier New', monospace;
+
+  /* The page column is 28rem; any viewport wider than it shows the desk */
+  --breakpoint-page: 28rem;
 }
 
 body {
@@ -35,8 +38,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* On wide screens the manual page lies on the desk */
-@media (min-width: 768px) {
+/* Any viewport wider than the page column shows the desk beneath it */
+@media (min-width: 28rem) {
   body { background-color: var(--color-board-shade); }
 }
 
