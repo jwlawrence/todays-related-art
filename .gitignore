@@ -25,3 +25,12 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# impeccable (live/config.json is committed; these are machine/session state)
+.impeccable/live/sessions/
+.impeccable/live/roots.json
+.impeccable/live/inject-journal.json
+
+# playwright MCP session artifacts
+.playwright-mcp/
+.impeccable/questions/

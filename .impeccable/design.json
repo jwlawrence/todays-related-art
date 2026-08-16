@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-16T00:00:00Z",
+  "title": "Design System: Today's Related Art",
+  "extensions": {
+    "colorMeta": {
+      "day-red": { "role": "primary", "displayName": "Oxide Red", "canonical": "oklch(53.6% 0.186 30.3)", "tonalRamp": ["oklch(15% 0.186 30.3)", "oklch(26% 0.186 30.3)", "oklch(38% 0.186 30.3)", "oklch(49% 0.186 30.3)", "oklch(61% 0.186 30.3)", "oklch(72% 0.186 30.3)", "oklch(84% 0.186 30.3)", "oklch(95% 0.186 30.3)"] },
+      "day-blue": { "role": "primary", "displayName": "Ultramarine", "canonical": "oklch(44.6% 0.192 267.7)", "tonalRamp": ["oklch(15% 0.192 267.7)", "oklch(26% 0.192 267.7)", "oklch(38% 0.192 267.7)", "oklch(49% 0.192 267.7)", "oklch(61% 0.192 267.7)", "oklch(72% 0.192 267.7)", "oklch(84% 0.192 267.7)", "oklch(95% 0.192 267.7)"] },
+      "day-yellow": { "role": "primary", "displayName": "Chrome Yellow", "canonical": "oklch(81.1% 0.166 85)", "tonalRamp": ["oklch(15% 0.166 85)", "oklch(26% 0.166 85)", "oklch(38% 0.166 85)", "oklch(49% 0.166 85)", "oklch(61% 0.166 85)", "oklch(72% 0.166 85)", "oklch(84% 0.166 85)", "oklch(95% 0.166 85)"] },
+      "day-green": { "role": "primary", "displayName": "Grass", "canonical": "oklch(62.2% 0.147 141.3)", "tonalRamp": ["oklch(15% 0.147 141.3)", "oklch(26% 0.147 141.3)", "oklch(38% 0.147 141.3)", "oklch(49% 0.147 141.3)", "oklch(61% 0.147 141.3)", "oklch(72% 0.147 141.3)", "oklch(84% 0.147 141.3)", "oklch(95% 0.147 141.3)"] },
+      "day-orange": { "role": "primary", "displayName": "Oxide Orange", "canonical": "oklch(64.4% 0.176 45.5)", "tonalRamp": ["oklch(15% 0.176 45.5)", "oklch(26% 0.176 45.5)", "oklch(38% 0.176 45.5)", "oklch(49% 0.176 45.5)", "oklch(61% 0.176 45.5)", "oklch(72% 0.176 45.5)", "oklch(84% 0.176 45.5)", "oklch(95% 0.176 45.5)"] },
+      "vermilion": { "role": "secondary", "displayName": "Vermilion (errata border)", "canonical": "oklch(58.6% 0.2 32.8)", "tonalRamp": ["oklch(15% 0.2 32.8)", "oklch(26% 0.2 32.8)", "oklch(38% 0.2 32.8)", "oklch(49% 0.2 32.8)", "oklch(61% 0.2 32.8)", "oklch(72% 0.2 32.8)", "oklch(84% 0.2 32.8)", "oklch(95% 0.2 32.8)"] },
+      "vermilion-deep": { "role": "secondary", "displayName": "Vermilion Deep (errata press)", "canonical": "oklch(49.8% 0.174 32.6)", "tonalRamp": ["oklch(15% 0.174 32.6)", "oklch(26% 0.174 32.6)", "oklch(38% 0.174 32.6)", "oklch(49% 0.174 32.6)", "oklch(61% 0.174 32.6)", "oklch(72% 0.174 32.6)", "oklch(84% 0.174 32.6)", "oklch(95% 0.174 32.6)"] },
+      "board": { "role": "neutral", "displayName": "Board Stock", "canonical": "oklch(94.6% 0.019 90.5)", "tonalRamp": ["oklch(15% 0.019 90.5)", "oklch(26% 0.019 90.5)", "oklch(38% 0.019 90.5)", "oklch(49% 0.019 90.5)", "oklch(61% 0.019 90.5)", "oklch(72% 0.019 90.5)", "oklch(84% 0.019 90.5)", "oklch(95% 0.019 90.5)"] },
+      "board-shade": { "role": "neutral", "displayName": "Board Shade (the desk)", "canonical": "oklch(90.1% 0.029 91.7)", "tonalRamp": ["oklch(15% 0.029 91.7)", "oklch(26% 0.029 91.7)", "oklch(38% 0.029 91.7)", "oklch(49% 0.029 91.7)", "oklch(61% 0.029 91.7)", "oklch(72% 0.029 91.7)", "oklch(84% 0.029 91.7)", "oklch(95% 0.029 91.7)"] },
+      "milk": { "role": "neutral", "displayName": "Milk", "canonical": "oklch(99% 0.008 98.9)", "tonalRamp": ["oklch(15% 0.008 98.9)", "oklch(26% 0.008 98.9)", "oklch(38% 0.008 98.9)", "oklch(49% 0.008 98.9)", "oklch(61% 0.008 98.9)", "oklch(72% 0.008 98.9)", "oklch(84% 0.008 98.9)", "oklch(95% 0.008 98.9)"] },
+      "ink": { "role": "neutral", "displayName": "Print Ink", "canonical": "oklch(19.6% 0.012 91.8)", "tonalRamp": ["oklch(15% 0.012 91.8)", "oklch(26% 0.012 91.8)", "oklch(38% 0.012 91.8)", "oklch(49% 0.012 91.8)", "oklch(61% 0.012 91.8)", "oklch(72% 0.012 91.8)", "oklch(84% 0.012 91.8)", "oklch(95% 0.012 91.8)"] },
+      "ink-soft": { "role": "neutral", "displayName": "Ink Soft", "canonical": "oklch(43.3% 0.03 89.3)", "tonalRamp": ["oklch(15% 0.03 89.3)", "oklch(26% 0.03 89.3)", "oklch(38% 0.03 89.3)", "oklch(49% 0.03 89.3)", "oklch(61% 0.03 89.3)", "oklch(72% 0.03 89.3)", "oklch(84% 0.03 89.3)", "oklch(95% 0.03 89.3)"] },
+      "ink-faint": { "role": "neutral", "displayName": "Ink Faint", "canonical": "oklch(50.2% 0.031 87.9)", "tonalRamp": ["oklch(15% 0.031 87.9)", "oklch(26% 0.031 87.9)", "oklch(38% 0.031 87.9)", "oklch(49% 0.031 87.9)", "oklch(61% 0.031 87.9)", "oklch(72% 0.031 87.9)", "oklch(84% 0.031 87.9)", "oklch(95% 0.031 87.9)"] }
+    },
+    "typographyMeta": {
+      "legend": { "displayName": "Legend", "purpose": "Condensed caps (Archivo wdth 75, 600, uppercase, +0.12em) for all wayfinding and field labels, 10-13px. The condensed width is the identity; do not drop font-stretch: 75%." },
+      "display": { "displayName": "Display", "purpose": "The one fact only: Archivo 800 full-width, -0.015em, line-height 0.98. Sized per use (1.35rem card names to 3rem cover title)." },
+      "mono": { "displayName": "Machine Voice", "purpose": "Fragment Mono for machine-supplied data: dates, editions, statuses, BRING lines, colophon. 10-14px." },
+      "body": { "displayName": "Reading Voice", "purpose": "EB Garamond prose at 1.0625rem/1.55 minimum; connected sentences only, never labels or UI strings." }
+    },
+    "shadows": [
+      { "name": "paper", "value": "0 2px 6px rgba(23, 21, 15, 0.28)", "purpose": "Standard lift for anything laid on the page: acetate leaves, milk sheets, the primary button." },
+      { "name": "tab", "value": "0 1px 3px rgba(23, 21, 15, 0.25)", "purpose": "Shallower lift of the fore-edge rail tabs." },
+      { "name": "desk", "value": "0 18px 60px rgba(23, 21, 15, 0.22)", "purpose": "Desktop (>=768px) only: the whole page column's shadow on the board-shade desk." }
+    ],
+    "motion": [
+      { "name": "step-motion", "value": "background-color, color, border-color, transform 90ms steps(2, end)", "purpose": "Every state change. Nothing eases, nothing fades; disabled under prefers-reduced-motion." },
+      { "name": "step-hinge", "value": "hinge 90ms steps(2, end) both; transform-origin: 50% 0; from perspective(900px) rotateX(-18deg) to none", "purpose": "Entrance for boards and forms: a leaf flipped flat at its bound (top) edge." },
+      { "name": "step-half-hinge", "value": "half-hinge 540ms steps(2, end) infinite alternate; rotateX(-10deg) to rotateX(-4deg)", "purpose": "Loading idle: a leaf held half-turned. The only duration other than 90ms, still stepped." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md-desk", "value": "768px" }
+    ],
+    "acetate": {
+      "mechanism": "White overlay alpha binary-searched (24 iterations) until composite luminance over the board reaches the 0.66 band; boards already at/above the band get a 0.55 floor. Computed in src/lib/colors.ts; onBoard text is whichever of milk/ink has higher WCAG contrast on the bare board.",
+      "leafAlpha": { "day-red": 0.756, "day-blue": 0.768, "day-yellow": 0.358, "day-green": 0.645, "day-orange": 0.677 },
+      "onBoard": { "day-red": "milk", "day-blue": "milk", "day-yellow": "ink", "day-green": "ink", "day-orange": "ink" }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled call to action per screen: chrome-yellow board stock, ink border, pressed 3px corners, paper shadow.",
+      "html": "<button class=\"ds-btn-primary\">Continue with Google</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 13px; color: var(--color-ink, #17150F); background: var(--color-day-yellow, #F2B705); border: 1px solid var(--color-ink, #17150F); border-radius: 3px; padding: 14px 28px; box-shadow: 0 2px 6px rgba(23, 21, 15, 0.28); cursor: pointer; transition: background-color 90ms steps(2, end), color 90ms steps(2, end); } .ds-btn-primary:hover { background: var(--color-milk, #FDFCF6); } .ds-btn-primary:focus-visible { outline: 2px solid var(--color-ink, #17150F); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Milk sheet button with ink border; hover snaps to board stock.",
+      "html": "<button class=\"ds-btn-secondary\">Continue with Google</button>",
+      "css": ".ds-btn-secondary { display: flex; width: 100%; align-items: center; justify-content: center; gap: 10px; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; color: var(--color-ink, #17150F); background: var(--color-milk, #FDFCF6); border: 1px solid var(--color-ink, #17150F); border-radius: 3px; padding: 12px 24px; cursor: pointer; transition: background-color 90ms steps(2, end); } .ds-btn-secondary:hover { background: var(--color-board, #F2EDDF); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--color-ink, #17150F); outline-offset: 2px; }"
+    },
+    {
+      "name": "Destructive Button",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Vermilion-deep press for the confirmed destructive action; hover inverts to milk. Lives only inside a vermilion errata slip.",
+      "html": "<button class=\"ds-btn-destructive\">Permanently delete</button>",
+      "css": ".ds-btn-destructive { display: inline-flex; align-items: center; justify-content: center; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--color-milk, #FDFCF6); background: var(--color-vermilion-deep, #B02A10); border: 1px solid var(--color-vermilion-deep, #B02A10); border-radius: 3px; padding: 10px 16px; cursor: pointer; transition: background-color 90ms steps(2, end), color 90ms steps(2, end); } .ds-btn-destructive:hover { background: var(--color-milk, #FDFCF6); color: var(--color-vermilion-deep, #B02A10); } .ds-btn-destructive:focus-visible { outline: 2px solid var(--color-ink, #17150F); outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Action",
+      "kind": "button",
+      "description": "The workhorse action: underlined legend, no box. All navigation and cancel actions use it.",
+      "html": "<button class=\"ds-text-action\">Edit students</button>",
+      "css": ".ds-text-action { font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--color-ink, #17150F); background: none; border: none; padding: 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; transition: color 90ms steps(2, end); } .ds-text-action:hover { color: var(--color-ink-soft, #57503E); } .ds-text-action:focus-visible { outline: 2px solid var(--color-ink, #17150F); outline-offset: 2px; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Milk field in the machine voice; focus snaps the 30% ink border to full ink, no ring.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-in\">Student name</label><input class=\"ds-input\" id=\"ds-in\" type=\"text\" placeholder=\"e.g., Emma\" /></div>",
+      "css": ".ds-field-label { display: block; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--color-ink, #17150F); margin-bottom: 8px; } .ds-input { width: 100%; font-family: 'Fragment Mono', 'Courier New', monospace; font-size: 14px; letter-spacing: 0.01em; color: var(--color-ink, #17150F); background: var(--color-milk, #FDFCF6); border: 1px solid rgba(23, 21, 15, 0.3); border-radius: 3px; padding: 10px 12px; outline: none; transition: border-color 90ms steps(2, end); } .ds-input::placeholder { color: var(--color-ink-faint, #6B6350); } .ds-input:focus { border-color: var(--color-ink, #17150F); }"
+    },
+    {
+      "name": "Fore-Edge Rail Tab",
+      "kind": "nav",
+      "description": "One stepped tab per weekday at the page's fore edge; the open day's tab extends wider. Free (left) edge rounded 5px, bound edge square.",
+      "html": "<div class=\"ds-rail\"><button class=\"ds-rail-tab\" style=\"background:#C22F1F;color:#FDFCF6\">M</button><button class=\"ds-rail-tab ds-rail-tab--open\" style=\"background:#2843BC;color:#FDFCF6\" aria-pressed=\"true\">T</button><button class=\"ds-rail-tab\" style=\"background:#F2B705;color:#17150F\">W</button><button class=\"ds-rail-tab\" style=\"background:#4E9C43;color:#17150F\">T</button><button class=\"ds-rail-tab\" style=\"background:#E06214;color:#17150F\">F</button></div>",
+      "css": ".ds-rail { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; } .ds-rail-tab { display: flex; height: 44px; width: 32px; align-items: center; justify-content: flex-start; padding-left: 8px; border: none; border-radius: 5px 0 0 5px; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; box-shadow: 0 1px 3px rgba(23, 21, 15, 0.25); cursor: pointer; transition: background-color 90ms steps(2, end), color 90ms steps(2, end), transform 90ms steps(2, end); } .ds-rail-tab--open { width: 48px; } .ds-rail-tab:focus-visible { outline: 2px solid var(--color-ink, #17150F); outline-offset: 2px; }"
+    },
+    {
+      "name": "Milk-Acetate Student Leaf",
+      "kind": "custom",
+      "description": "Signature reading surface: translucent white leaf at the runtime-solved alpha over the day's board, punch holes revealing the board at the bound edge, name legend, class display, BRING mono line. Shown here on the RED board (solved alpha 0.756).",
+      "html": "<div class=\"ds-board-sample\"><article class=\"ds-leaf\"><span class=\"ds-leaf-holes\"><span class=\"ds-leaf-hole\"></span><span class=\"ds-leaf-hole\"></span></span><p class=\"ds-leaf-name\">Emma</p><p class=\"ds-leaf-art\">Music</p><p class=\"ds-leaf-bring\"><span class=\"ds-leaf-bring-label\">Bring</span> &middot; recorder</p></article></div>",
+      "css": ".ds-board-sample { background: #C22F1F; padding: 24px 20px; } .ds-leaf { position: relative; background: rgba(255, 255, 255, 0.756); padding: 16px 20px 16px 36px; box-shadow: 0 2px 6px rgba(23, 21, 15, 0.28); } .ds-leaf-holes { position: absolute; left: 12px; top: 16px; display: flex; flex-direction: column; gap: 12px; } .ds-leaf-hole { width: 9px; height: 9px; border-radius: 50%; background: #C22F1F; } .ds-leaf-name { margin: 0; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--color-ink-soft, #57503E); } .ds-leaf-art { margin: 4px 0 0; font-family: Archivo, 'Helvetica Neue', sans-serif; font-weight: 800; letter-spacing: -0.015em; line-height: 0.98; font-size: 2.6rem; color: var(--color-ink, #17150F); } .ds-leaf-bring { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid rgba(23, 21, 15, 0.22); font-family: 'Fragment Mono', 'Courier New', monospace; letter-spacing: 0.01em; font-size: 13px; color: var(--color-ink-soft, #57503E); } .ds-leaf-bring-label { font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; color: var(--color-ink, #17150F); }"
+    },
+    {
+      "name": "Errata Slip",
+      "kind": "card",
+      "description": "The only error presentation at page scale: milk sheet, 1px vermilion border, ERRATA legend in vermilion-deep, plain message, underlined text action. (The glance-scale widget prints errors inline on the board instead.)",
+      "html": "<div class=\"ds-errata\"><p class=\"ds-errata-label\">Errata</p><p class=\"ds-errata-msg\">Yellow is not mapped for Emma yet.</p><button class=\"ds-errata-action\">Add it in setup</button></div>",
+      "css": ".ds-errata { background: var(--color-milk, #FDFCF6); border: 1px solid var(--color-vermilion, #D93A1B); padding: 16px 20px; box-shadow: 0 2px 6px rgba(23, 21, 15, 0.28); } .ds-errata-label { margin: 0; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--color-vermilion-deep, #B02A10); } .ds-errata-msg { margin: 6px 0 0; font-family: Archivo, 'Helvetica Neue', sans-serif; font-size: 15px; font-weight: 500; color: var(--color-ink, #17150F); } .ds-errata-action { margin-top: 8px; font-family: Archivo, 'Helvetica Neue', sans-serif; font-stretch: 75%; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; color: var(--color-ink, #17150F); background: none; border: none; padding: 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; } .ds-errata-action:focus-visible { outline: 2px solid var(--color-ink, #17150F); outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Household Reference Manual",
+    "overview": "Every surface is a page of a printed reference manual — a school-district binder of board stock, printed in ink, divided by five full-strength color section boards, lying open at today's tab. The world deliberately refuses the family-app defaults: no cream gradients, no rounded pastel cards, no soft washes. Color arrives at full strength as a section divider, never as a tint; text is printed on the material it sits on; corrections arrive on vermilion errata slips. The signature material is the milk-acetate leaf: a translucent white sheet laid over the day's board, its opacity solved at runtime so the board color glows through while ink stays fully legible on top. The signature mechanism is the hinge: nothing fades or eases — every change is a stepped, two-frame snap, as if a physical leaf were flipped at its bound edge.",
+    "keyCharacteristics": [
+      "Board-stock ground (#F2EDDF) with a fixed fractal-noise grain overlay (5% opacity) over everything — ink and stock alike",
+      "Five full-strength section boards; color is structural, never decorative",
+      "Milk-acetate leaves with runtime-solved alpha carry the primary reading",
+      "Vermilion reserved exclusively for errata (errors, unmapped states, destructive actions)",
+      "Four fixed type voices: condensed-caps legend, heavy grotesk display, mono machine voice, Garamond prose",
+      "Hairline rules and a heavy 2px ink rule under running headers",
+      "Motion is steps(2) only — 90ms state changes, one 540ms stepped idle loop; zero easing curves anywhere",
+      "One narrow column, phone-first; on desktop the page lies on a darker desk"
+    ],
+    "rules": [
+      { "name": "The Errata Rule", "body": "Vermilion and vermilion-deep mark corrections only: load errors, unmapped colors, and destructive confirmation. They are never a section color, never a highlight, never decoration. A screen with no problem shows no vermilion.", "section": "colors" },
+      { "name": "The Named Color Rule", "body": "A color never appears without its name in text beside it. Every board says \"Red Day\"; every week-index tab carries the color word in mono; every swatch in setup sits next to its label. A parent who cannot distinguish the swatches loses nothing.", "section": "colors" },
+      { "name": "The Full-Strength Rule", "body": "Board colors are used at 100% or not at all. The only sanctioned transparency over a board is the milk-acetate leaf (white at solved alpha) and the 40%-opacity onBoard hairline under a board's header.", "section": "colors" },
+      { "name": "The 17px Serif Rule", "body": "Garamond appears only at 1.0625rem (17px) and above, and only for running prose. Labels, data, and UI strings never wear the serif.", "section": "typography" },
+      { "name": "The Four Voices Rule", "body": "Every piece of text is exactly one of legend, display, mono, or body. Untyped text appears only inside errata slips, where the message is the point.", "section": "typography" },
+      { "name": "The Three Shadows Rule", "body": "Only three shadows exist: Paper (0 2px 6px rgba(23,21,15,0.28)), Tab (0 1px 3px rgba(23,21,15,0.25)), Desk (0 18px 60px rgba(23,21,15,0.22)). New surfaces pick the one matching their material rather than inventing a fourth.", "section": "elevation" },
+      { "name": "The Bound Edge Rule", "body": "Every shape and motion respects its binding: tabs round only their free edge, hinges rotate from the top (bound) edge, punch holes sit at the bound edge of a leaf. Nothing floats free of the page.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do print the color's name in text wherever its swatch, board, or tab appears (\"Red Day\", \"Yellow\", \"not mapped\") — the Named Color Rule is a durable accessibility requirement.",
+      "Do use steps(2, end) for every transition and animation — 90ms for state changes, hinged at the bound edge (transform-origin: 50% 0) for entrances — and honor prefers-reduced-motion.",
+      "Do compute text-on-board and leaf alpha through src/lib/colors.ts (COLOR_CONFIG, getColorStyle) instead of hard-coding milk/ink choices or overlay opacities.",
+      "Do keep corners square unless the element is a pressed button/input (3px) or a tab's free edge (4–5px).",
+      "Do open every page with the running header (legend title, heavy 2px ink rule, mono dateline); the home page closes with the mono colophon.",
+      "Do present every error, absence, or destructive confirmation at page scale as a vermilion-bordered errata slip on milk; the glance-scale widget prints errors inline on the board instead.",
+      "Do state machine facts (dates, editions, statuses, BRING lines) in the mono voice."
+    ],
+    "donts": [
+      "Don't ease, fade, cross-fade, or spring anything — no ease-*, no opacity transitions, no durations other than the stepped 90ms (and the 540ms loading loop).",
+      "Don't use vermilion or vermilion-deep as a section, accent, or emphasis color; it exists only for errata.",
+      "Don't tint, wash, or pastel a board color, and don't put transparency over a board except the solved milk-acetate leaf and the 40% onBoard hairline.",
+      "Don't set Garamond below 17px or use it for labels and UI strings.",
+      "Don't round card or container corners, add borders to milk sheets, or introduce shadows beyond the three in Elevation & Depth.",
+      "Don't add glyph icon sets. The world is typographic; the only pictorial marks are the Google identity button's mark (a third-party requirement) and square-linecap inline SVG arrows.",
+      "Don't imply district affiliation on any surface; the colophon's \"not affiliated with the district\" line is part of the design."
+    ]
+  }
+}

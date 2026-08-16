@@ -1,82 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #FFFDF7;
-  --color-cream-dark: #FBF8F0;
-  --color-ink: #2D2A24;
-  --color-ink-light: #6B6560;
-  --color-ink-muted: #A8A29E;
+  /* Board stock — the manual's paper */
+  --color-board: #F2EDDF;
+  --color-board-shade: #E5DEC9;
+  --color-milk: #FDFCF6;
 
-  --color-day-red: #E54D4D;
-  --color-day-red-soft: #FEF0F0;
-  --color-day-red-glow: #E54D4D33;
-  --color-day-blue: #4D8BE5;
-  --color-day-blue-soft: #EFF5FE;
-  --color-day-blue-glow: #4D8BE533;
-  --color-day-yellow: #E5B84D;
-  --color-day-yellow-soft: #FEF9EF;
-  --color-day-yellow-glow: #E5B84D33;
-  --color-day-green: #4DBE6E;
-  --color-day-green-soft: #EFFEF3;
-  --color-day-green-glow: #4DBE6E33;
-  --color-day-orange: #E5854D;
-  --color-day-orange-soft: #FEF4EF;
-  --color-day-orange-glow: #E5854D33;
+  /* Print ink */
+  --color-ink: #17150F;
+  --color-ink-soft: #57503E;
+  --color-ink-faint: #6B6350;
 
-  --font-display: 'Fredoka', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  /* Errata only — never a section color. Deep cut is the text/press weight. */
+  --color-vermilion: #D93A1B;
+  --color-vermilion-deep: #B02A10;
+
+  /* Section boards, full strength */
+  --color-day-red: #C22F1F;
+  --color-day-blue: #2843BC;
+  --color-day-yellow: #F2B705;
+  --color-day-green: #4E9C43;
+  --color-day-orange: #E06214;
+
+  --font-head: var(--font-archivo), 'Helvetica Neue', sans-serif;
+  --font-body: var(--font-garamond), Georgia, serif;
+  --font-mono: var(--font-fragment), 'Courier New', monospace;
 }
 
 body {
-  font-family: var(--font-body);
-  background-color: var(--color-cream);
+  font-family: var(--font-head);
+  background-color: var(--color-board);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Noise texture overlay for warmth */
-body::before {
+/* On wide screens the manual page lies on the desk */
+@media (min-width: 768px) {
+  body { background-color: var(--color-board-shade); }
+}
+
+/* Board-stock tooth: one grain over ink and stock alike */
+body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 50;
-  opacity: 0.015;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
+  z-index: 40;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
 }
 
-/* Stagger-in animation for cards */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ── Type voices ─────────────────────────────────────── */
+
+/* Legend: tracked condensed caps — section labels, field labels */
+.type-legend {
+  font-family: var(--font-head);
+  font-stretch: 75%;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* Display: the one fact — heavy, wide-set grotesk */
+.type-display {
+  font-family: var(--font-head);
+  font-stretch: 100%;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
 }
 
-@keyframes colorPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+/* Machine voice: dates, editions, statuses, quantities */
+.type-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
 }
 
-.animate-slide-up {
-  animation: slideUp 0.5s ease-out both;
+/* Reading voice: only at 17px and above */
+.type-body {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out both;
+/* ── Motion: nothing eases or fades. 90ms, two frames. ── */
+
+@keyframes hinge {
+  from { transform: perspective(900px) rotateX(-18deg); }
+  to { transform: none; }
 }
 
-/* Widget page - no min-height, sizes to content */
+@keyframes half-hinge {
+  from { transform: perspective(900px) rotateX(-10deg); }
+  to { transform: perspective(900px) rotateX(-4deg); }
+}
 
+.step-hinge {
+  animation: hinge 90ms steps(2, end) both;
+  transform-origin: 50% 0;
+}
+
+.step-half-hinge {
+  animation: half-hinge 540ms steps(2, end) infinite alternate;
+  transform-origin: 50% 0;
+}
+
+.step-motion {
+  transition-property: background-color, color, border-color, transform;
+  transition-duration: 90ms;
+  transition-timing-function: steps(2, end);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-hinge, .step-half-hinge { animation: none; }
+  .step-motion { transition: none; }
+}
+
+/* ── Focus: mechanical, square ───────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ── Hairline rules ──────────────────────────────────── */
+
+.rule { border-color: var(--color-ink); }
+.rule-faint { border-color: color-mix(in srgb, var(--color-ink) 22%, transparent); }

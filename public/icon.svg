@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#F2EDDF"/>
+  <!-- spine punch holes -->
+  <circle cx="76" cy="150" r="17" fill="#E5DEC9"/>
+  <circle cx="76" cy="150" r="15" fill="#D8D0B6"/>
+  <circle cx="76" cy="362" r="17" fill="#E5DEC9"/>
+  <circle cx="76" cy="362" r="15" fill="#D8D0B6"/>
+  <!-- ruled title block -->
+  <rect x="136" y="128" width="240" height="14" fill="#17150F"/>
+  <rect x="136" y="170" width="196" height="8" fill="#17150F" opacity="0.55"/>
+  <rect x="136" y="194" width="212" height="8" fill="#17150F" opacity="0.55"/>
+  <rect x="136" y="218" width="164" height="8" fill="#17150F" opacity="0.55"/>
+  <!-- five section tabs down the fore edge -->
+  <g>
+    <rect x="404" y="96" width="108" height="72" rx="10" fill="#C22F1F"/>
+    <rect x="424" y="176" width="88" height="72" rx="10" fill="#2843BC"/>
+    <rect x="404" y="256" width="108" height="72" rx="10" fill="#F2B705"/>
+    <rect x="424" y="336" width="88" height="72" rx="10" fill="#4E9C43"/>
+    <rect x="404" y="416" width="108" height="72" rx="10" fill="#E06214"/>
+  </g>
+</svg>
