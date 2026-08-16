@@ -354,7 +354,7 @@ function TabRail({
 }) {
   return (
     <nav
-      className="absolute right-0 top-5 z-10 flex flex-col gap-[3px]"
+      className="absolute right-0 top-5 z-10 flex flex-col items-end gap-[3px]"
       aria-label="Week tabs"
     >
       {week.map((day) => {
