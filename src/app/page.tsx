@@ -6,6 +6,7 @@ import { SignInButton } from "@/components/SignInButton";
 import { useSession } from "next-auth/react";
 import { useStudents } from "@/hooks/useStudents";
 import { COLOR_CONFIG, BOARD_HEX } from "@/lib/colors";
+import { softBreakArt } from "@/lib/format";
 import type { Student, ScheduleResponse, DaySchedule } from "@/lib/types";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -86,7 +87,12 @@ function StudentLeaf({ student, day }: { student: Student; day: DaySchedule }) {
         <PunchHole color={config.board} />
       </span>
       <p className="type-legend text-[11px] text-ink-soft">{student.name}</p>
-      <p className="type-display mt-1 text-[2.6rem] text-ink">{art}</p>
+      <p
+        className="type-display mt-1 text-[2.6rem] text-ink"
+        style={{ overflowWrap: "anywhere" }}
+      >
+        {softBreakArt(art)}
+      </p>
       {note && (
         <p className="type-mono mt-3 border-t rule-faint pt-2.5 text-[13px] text-ink-soft">
           <span className="type-legend text-[10px] text-ink">Bring</span>
