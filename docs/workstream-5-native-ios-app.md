@@ -45,7 +45,9 @@ Ship an installable iOS app on the public App Store that removes the three gaps 
 ## Phase 0: Prerequisites (start today — both gate everything)
 
 1. **Enroll in Apple Developer Program** ($99/yr, 1–2 days identity verification). Everything — TestFlight, push, widget entitlements — waits on this.
-2. **Buy a custom domain and attach it to the Vercel project.** Not optional: the shell hardcodes the origin into a shipped binary, and the `apple-app-site-association` file for deep links is served from that origin. A `*.vercel.app` URL baked into the app means a project rename bricks every install. Bundle ID derives from the domain (e.g. `com.<domain>.app`).
+2. **Buy a custom domain and attach it to the Vercel project.** Not optional: the shell hardcodes the origin into a shipped binary, and the `apple-app-site-association` file for deep links is served from that origin. A `*.vercel.app` URL baked into the app means a project rename bricks every install.
+   - ✅ **Done (2026-08-17): `hcpsrelatedarts.com` registered at Cloudflare.** Still to do: add the domain to the Vercel project, point Cloudflare DNS at Vercel (DNS-only/grey-cloud so Vercel manages the cert), update `AUTH_URL`/`NEXTAUTH_URL`, and add the new origin to the Google OAuth redirect URIs.
+   - Bundle ID: `com.hcpsrelatedarts.app`.
 3. **Add a `/privacy` page** to the web app. Required for App Store submission; also feeds the privacy-label declarations.
 
 ## Phase 1: Capacitor shell
