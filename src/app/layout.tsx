@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Archivo, EB_Garamond, Fragment_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -91,6 +92,7 @@ export default function RootLayout({
         <Providers>
           <main>{children}</main>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
