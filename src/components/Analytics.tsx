@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const GA_MEASUREMENT_ID = "G-SL0PYBP0X2";
 
@@ -42,6 +43,7 @@ export function Analytics() {
       <VercelAnalytics
         beforeSend={(event) => ({ ...event, url: redactToken(event.url) })}
       />
+      <SpeedInsights />
     </>
   );
 }
