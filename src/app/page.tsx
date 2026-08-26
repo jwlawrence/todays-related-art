@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { SignInButton } from "@/components/SignInButton";
 import { useSession } from "next-auth/react";
+import type { Session } from "next-auth";
 import { useStudents } from "@/hooks/useStudents";
 import { COLOR_CONFIG, BOARD_HEX } from "@/lib/colors";
 import { softBreakArt } from "@/lib/format";
@@ -417,7 +418,7 @@ function ErrorState({ message }: { message: string }) {
 }
 
 /* Title page: the manual's cover, shown before any student exists */
-function EmptyState() {
+function EmptyState({ session }: { session: Session | null }) {
   return (
     <div className="mx-auto w-full max-w-md px-5 pb-16 pt-10 text-center">
       <div className="flex justify-center gap-[3px]" aria-hidden="true">
@@ -450,16 +451,46 @@ function EmptyState() {
       </p>
 
       <div className="mt-8 flex flex-col items-center gap-4">
-        <SignInButton variant="primary" />
-        <p className="type-mono max-w-xs text-[12px] text-ink-faint">
-          Already set up? Signing in restores your students.
-        </p>
-        <Link
-          href="/setup"
-          className="type-legend text-[12px] text-ink underline underline-offset-4"
-        >
-          Or add a student without signing in
-        </Link>
+        {session?.user ? (
+          <>
+            <Link
+              href="/setup"
+              className="type-legend step-motion inline-flex items-center justify-center gap-3 rounded-[3px] border border-ink bg-day-yellow px-7 py-3.5 text-[13px] text-ink hover:bg-milk"
+              style={{ boxShadow: "0 2px 6px rgba(23, 21, 15, 0.28)" }}
+            >
+              Add a student
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.25"
+                strokeLinecap="square"
+                aria-hidden="true"
+              >
+                <path d="M4 12h15M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+            <p className="type-mono max-w-xs text-[12px] text-ink-faint">
+              Signed in as {session.user.name || session.user.email}. Your
+              students sync across devices.
+            </p>
+          </>
+        ) : (
+          <>
+            <SignInButton variant="primary" />
+            <p className="type-mono max-w-xs text-[12px] text-ink-faint">
+              Already set up? Signing in restores your students.
+            </p>
+            <Link
+              href="/setup"
+              className="type-legend text-[12px] text-ink underline underline-offset-4"
+            >
+              Or add a student without signing in
+            </Link>
+          </>
+        )}
       </div>
 
       <p className="type-mono mt-14 text-[10px] text-ink-faint">
@@ -546,7 +577,7 @@ export default function HomePage() {
 
   if (scheduleLoading || studentsLoading) return <LoadingState />;
   if (error) return <ErrorState message={error} />;
-  if (students.length === 0) return <EmptyState />;
+  if (students.length === 0) return <EmptyState session={session ?? null} />;
   if (!schedule || !openDay) return null;
 
   const todayIsOff = !schedule.today.color;
