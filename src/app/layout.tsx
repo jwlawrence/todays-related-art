@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Archivo, EB_Garamond, Fragment_Mono } from "next/font/google";
+import { Analytics } from "@/components/Analytics";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -74,23 +74,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${archivo.variable} ${garamond.variable} ${fragment.variable}`}>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-SL0PYBP0X2"
-        strategy="afterInteractive"
-      />
-      <Script id="ga-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-SL0PYBP0X2');
-        `}
-      </Script>
       <body className="min-h-screen">
         <div dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <Providers>
           <main>{children}</main>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
