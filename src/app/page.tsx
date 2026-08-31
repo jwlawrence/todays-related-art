@@ -12,6 +12,8 @@ import type { Student, ScheduleResponse, DaySchedule } from "@/lib/types";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+const WISHLIST_URL = "https://www.amazon.com/hz/wishlist/ls/2E3W3XGQ1AW5Z";
+
 function shortDate(iso: string): string {
   const [, m, d] = iso.split("-").map(Number);
   return `${MONTHS[m - 1]} ${d}`.toUpperCase();
@@ -417,6 +419,37 @@ function ErrorState({ message }: { message: string }) {
   );
 }
 
+/* Back matter: the classroom supply drive, offered after the answer, never before it */
+function WishListLink({ className = "" }: { className?: string }) {
+  return (
+    <div className={className}>
+      <a
+        href={WISHLIST_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="type-legend step-motion inline-flex items-center gap-1.5 text-[11px] text-ink underline underline-offset-4 hover:text-ink-soft"
+      >
+        Related arts wish list
+        <svg
+          width="11"
+          height="11"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="square"
+          aria-hidden="true"
+        >
+          <path d="M7 17L17 7M9 7h8v8" />
+        </svg>
+      </a>
+      <p className="type-mono mt-1.5 text-[11px] text-ink-soft">
+        Supplies for the related arts classrooms
+      </p>
+    </div>
+  );
+}
+
 /* Title page: the manual's cover, shown before any student exists */
 function EmptyState({ session }: { session: Session | null }) {
   return (
@@ -493,7 +526,9 @@ function EmptyState({ session }: { session: Session | null }) {
         )}
       </div>
 
-      <p className="type-mono mt-14 text-[10px] text-ink-faint">
+      <WishListLink className="mt-14" />
+
+      <p className="type-mono mt-6 text-[10px] text-ink-faint">
         {editionLabel()} · reads the public HCPSS &ldquo;ES Related
         Arts&rdquo; calendar
       </p>
@@ -658,7 +693,9 @@ export default function HomePage() {
 
       {/* Colophon */}
       <footer className="border-t rule px-5 py-4 sm:px-8">
-        <p className="type-mono text-[10px] leading-relaxed text-ink-faint">
+        <WishListLink />
+
+        <p className="type-mono mt-3 text-[10px] leading-relaxed text-ink-faint">
           {editionLabel()} · reads the public HCPSS &ldquo;ES Related
           Arts&rdquo; calendar · not affiliated with the district
         </p>
