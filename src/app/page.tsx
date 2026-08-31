@@ -429,7 +429,7 @@ function WishListLink({ className = "" }: { className?: string }) {
         rel="noopener noreferrer"
         className="type-legend step-motion inline-flex items-center gap-1.5 text-[11px] text-ink underline underline-offset-4 hover:text-ink-soft"
       >
-        Related arts wish list
+        VES Related Arts Wish List
         <svg
           width="11"
           height="11"

@@ -29,7 +29,10 @@ tracker to a page other parents use.
 
 ## Copy
 
-- Link text: **Related arts wish list**, followed by an outbound arrow glyph.
+- Link text: **VES Related Arts Wish List**, followed by an outbound arrow glyph.
+  The school prefix is load-bearing: the wish list belongs to one school, while
+  the app serves any HCPSS elementary household. Without it, a parent at another
+  school would read the list as theirs.
 - Subline: **Supplies for the related arts classrooms**
 
 No shipping claim is made — items may reach the school by hand rather than
